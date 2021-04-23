@@ -1,3 +1,4 @@
+import Lmitte from 'components/Lmitte';
 import { dbService } from 'myBase';
 import React, { useEffect, useState } from 'react';
 
@@ -43,7 +44,7 @@ const Home = ({userObj}) => {
                 <input type="submit" value="Lmitte" />
             </form>
             <ul>
-                {lmittes.map(lmitte => <li key={lmitte.id}>{lmitte.text}</li>)}
+                {lmittes.map(lmitte => <Lmitte key={lmitte.id} lmitteObj={lmitte} isOwner={lmitte.creatorId === userObj.uid} />)}
             </ul>
         </>
     );   
