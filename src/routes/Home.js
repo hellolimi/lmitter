@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 const Home = ({userObj}) => {
     const [lmitte, setLmitte] = useState('');
     const [lmittes, setLmittes] = useState([]);
-    const getLmittes = async () => {
+    /* const getLmittes = async () => {
         const dbLmittes = await dbService.collection('lmittes').get();
         dbLmittes.forEach(document => {
             const lmitteObject = {
@@ -13,10 +13,14 @@ const Home = ({userObj}) => {
             };
             setLmittes(prev => [...prev, lmitteObject]);
         });
-    }
+    } */
 /*     console.log(lmittes); */
     useEffect(() => {
-        getLmittes();
+     /*    getLmittes(); */
+        dbService.collection('lmittes').onSnapshot(snapshot => {
+            const LmitteArray = snapshot.docs.map(doc => ({...doc.data(), id: doc.id}));
+            setLmittes(LmitteArray);
+        });
     }, []);
 
     const onSubmit = async(e) => {
