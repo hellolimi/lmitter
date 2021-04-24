@@ -1,23 +1,14 @@
-import Lmitte from 'components/Lmitte';
-import { dbService } from 'myBase';
 import React, { useEffect, useState } from 'react';
+import { dbService, storageService } from 'myBase';
+import { v4 as uuidv4 } from 'uuid';
+import Lmitte from 'components/Lmitte';
 
 const Home = ({userObj}) => {
-    const [lmitte, setLmitte] = useState('');
+    const [lmitteText, setLmitteText] = useState('');
     const [lmittes, setLmittes] = useState([]);
-    /* const getLmittes = async () => {
-        const dbLmittes = await dbService.collection('lmittes').get();
-        dbLmittes.forEach(document => {
-            const lmitteObject = {
-                ...document.data(),
-                id: document.id
-            };
-            setLmittes(prev => [...prev, lmitteObject]);
-        });
-    } */
-/*     console.log(lmittes); */
+    const [fileData, setFileData] = useState('');
+
     useEffect(() => {
-     /*    getLmittes(); */
         dbService.collection('lmittes').onSnapshot(snapshot => {
             const LmitteArray = snapshot.docs.map(doc => ({...doc.data(), id: doc.id}));
             setLmittes(LmitteArray);
@@ -26,21 +17,50 @@ const Home = ({userObj}) => {
 
     const onSubmit = async(e) => {
         e.preventDefault();
-        await dbService.collection('lmittes').add({
-            text : lmitte,
+        let fileUrl = '';
+        if(fileData !== ''){
+            const fileReference = storageService.ref().child(`lmittes/${userObj.uid}/${uuidv4()}`);
+            const response = await fileReference.putString(fileData, 'data_url');
+            fileUrl = await response.ref.getDownloadURL();
+        }
+        const lmitte = {
+            text : lmitteText,
             createdAt : Date.now(),
-            creatorId : userObj.uid
-        });
-        setLmitte('');
+            creatorId : userObj.uid,
+            fileUrl
+        }
+        await dbService.collection('lmittes').add(lmitte);
+        setLmitteText('');
+        setFileData('');
     }
     const onChange = e => {
         const {value} = e.target;
-        setLmitte(value);
+        setLmitteText(value);
+    }
+    const onFileChange = e => {
+        const {files} = e.target;
+        const theFile = files[0];
+        const reader = new FileReader();
+        reader.onloadend = (finishedEvent) => {
+            const {result} = finishedEvent.currentTarget;
+            setFileData(result);
+        }
+        reader.readAsDataURL(theFile);
+    }
+    const clearFileData = () => {
+        setFileData('');
     }
     return(
         <>
             <form onSubmit={onSubmit}>
-                <input value={lmitte} type="text" placeholder="What's on your mind?" onChange={onChange} />
+                <input value={lmitteText} type="text" placeholder="What's on your mind?" onChange={onChange} />
+                <input type="file" accept="image/*" onChange={onFileChange}/>
+                {fileData&& 
+                    <>
+                        <img src={fileData} width="50" alt="" />
+                        <button onClick={clearFileData}>Clear Image</button>
+                    </>
+                }
                 <input type="submit" value="Lmitte" />
             </form>
             <ul>
