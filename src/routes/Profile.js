@@ -5,8 +5,10 @@ import { useHistory } from 'react-router';
 
 const Profile = ( {refreshUser, userObj} ) => {
     const [myLmittes, setMyLmittes] = useState([]);
+
     const [newNickname, setNewNickname] = useState(userObj.displayName);
     const [newPhoto, setNewPhoto] = useState();
+
     const [update, setUpdate]  = useState(false);
 
     const history = useHistory();
@@ -29,11 +31,11 @@ const Profile = ( {refreshUser, userObj} ) => {
         reader.onloadend = (finishedEvent) => {
             const {result} = finishedEvent.currentTarget;
             setNewPhoto(result);
-           
         }
-        
     }
-    
+    const onClearPhoto = () => {
+        setNewPhoto(null);
+    }
     const onSubmit = async (e) => {
         e.preventDefault();
         if(userObj.displayName !== newNickname){
@@ -72,6 +74,8 @@ const Profile = ( {refreshUser, userObj} ) => {
             {update&&<>
                 <form onSubmit={onSubmit}>
                     <input type="file" accept="image/*" onChange={onFileChange} />
+                    {newPhoto&&<img src={newPhoto} alt="" width="100" />}
+                    <button type="button" onClick={onClearPhoto}>Clear Photo</button>
                     <input type="text" placeholder="Set your nickname" value={newNickname} onChange={onChangeName} />
                     <button type="submit">Update Profile</button>
                 </form>
