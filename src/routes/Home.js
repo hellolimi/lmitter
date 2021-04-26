@@ -1,18 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { dbService } from 'myBase';
 import Lmitte from 'components/Lmitte';
 import CreateLmitte from 'components/CreateLmitte';
 
 const Home = ({userObj}) => {
     const [lmittes, setLmittes] = useState([]);
-    
-    useEffect(() => {
-        dbService.collection('lmittes').onSnapshot(snapshot => {
+    const getLmittes = useCallback(() => {
+        dbService.collection('lmittes').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
+            setLoading(false);
             const LmitteArray = snapshot.docs.map(doc => ({...doc.data(), id: doc.id}));
             setLmittes(LmitteArray);
         });
     }, []);
-
+    useEffect(() => {
+        getLmittes();
+        
+    }, [getLmittes]);
     return(
         <>
             <CreateLmitte userObj={userObj} />
@@ -23,4 +26,4 @@ const Home = ({userObj}) => {
     );   
 }
 
-export default Home;
+export default React.memo(Home);
