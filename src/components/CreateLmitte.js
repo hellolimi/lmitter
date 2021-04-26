@@ -9,20 +9,26 @@ function CreateLmitte({userObj}) {
     const onSubmit = async(e) => {
         e.preventDefault();
         let fileUrl = '';
-        if(fileData !== ''){
-            const fileReference = storageService.ref().child(`lmittes/${userObj.uid}/${uuidv4()}`);
-            const response = await fileReference.putString(fileData, 'data_url');
-            fileUrl = await response.ref.getDownloadURL();
+        
+        if(lmitteText !== '' || fileData !== ''){
+            if(fileData !== ''){
+                const fileReference = storageService.ref().child(`lmittes/${userObj.uid}/${uuidv4()}`);
+                const response = await fileReference.putString(fileData, 'data_url');
+                fileUrl = await response.ref.getDownloadURL();
+            }
+            const lmitte = {
+                text : lmitteText,
+                createdAt : Date.now(),
+                creatorId : userObj.uid,
+                fileUrl
+            }
+            await dbService.collection('lmittes').add(lmitte);
+            setLmitteText('');
+            setFileData('');
+        }else{
+            window.alert("Sorry! You can't upload an empty post!");
         }
-        const lmitte = {
-            text : lmitteText,
-            createdAt : Date.now(),
-            creatorId : userObj.uid,
-            fileUrl
-        }
-        await dbService.collection('lmittes').add(lmitte);
-        setLmitteText('');
-        setFileData('');
+        
     }
     const onChange = e => {
         const {value} = e.target;
