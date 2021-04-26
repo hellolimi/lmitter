@@ -1,5 +1,5 @@
 import { authSerive, dbService, storageService } from 'myBase';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useHistory } from 'react-router';
 
@@ -57,14 +57,16 @@ const Profile = ( {refreshUser, userObj} ) => {
         refreshUser();
         setUpdate(false);
     }
-    const getMyLmittes = async () => {
-        const lmittes = await dbService.collection('lmittes').where('creatorId', '==', userObj.uid).orderBy('createdAt').get();
+    const getMyLmittes =  useCallback(async () => {
+        const lmittes = await dbService.collection('lmittes').where('creatorId', '==', userObj.uid).orderBy('createdAt', 'desc').get();
         const myLmitte =  lmittes.docs.map(doc => ({...doc.data(), id: doc.id}));
         setMyLmittes(myLmitte);
-    }
-    useEffect(() => {
-        getMyLmittes();
-    }, []);
+    }, [userObj.uid]); 
+
+   useEffect(() => {
+    getMyLmittes();
+  
+   }, [getMyLmittes]);
 
     return <>
         <div className="myProfile">
@@ -95,4 +97,4 @@ const Profile = ( {refreshUser, userObj} ) => {
     </>
 }
 
-export default Profile;
+export default React.memo(Profile);
