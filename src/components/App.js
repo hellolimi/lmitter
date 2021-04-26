@@ -14,8 +14,10 @@ function App() {
           photoURL: user.photoURL,
           updateProfile: (args) => user.updateProfile(args),
         });
+      }else{
+        setUserObj(null);
       }
-      setInit(true); //user 상태 변화가 처리되고 난 후 
+      setInit(true);
     })
   }, []);
   const refreshUser = () => {
