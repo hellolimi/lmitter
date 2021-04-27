@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import AppRouter from 'components/Router';
 import { authSerive } from 'myBase';
+import logo from 'img/logo512.png';
 
 function App() {
   const [init, setInit] = useState(false);
@@ -8,17 +9,26 @@ function App() {
   useEffect(() => {
     authSerive.onAuthStateChanged((user) => {
       if(user){
+        let proPhoto;
+        if(user.photoURL){
+          proPhoto = user.photoURL;
+        }else{
+          proPhoto = logo;
+        }
         setUserObj({
           displayName : user.displayName,
           uid: user.uid,
-          photoURL: user.photoURL,
+          photoURL: proPhoto,
           updateProfile: (args) => user.updateProfile(args),
         });
       }else{
         setUserObj(null);
       }
       setInit(true);
-    })
+    });
+    return () => {
+      setUserObj(null);
+    }
   }, []);
   const refreshUser = () => {
     
