@@ -9,7 +9,11 @@ function CreateLmitte({userObj}) {
     const onSubmit = async(e) => {
         e.preventDefault();
         let fileUrl = '';
-        
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = today.getMonth();
+        const date = today.getDate();
+
         if(lmitteText !== '' || fileData !== ''){
             if(fileData !== ''){
                 const fileReference = storageService.ref().child(`lmittes/${userObj.uid}/${uuidv4()}`);
@@ -17,9 +21,11 @@ function CreateLmitte({userObj}) {
                 fileUrl = await response.ref.getDownloadURL();
             }
             const lmitte = {
+                date : `${year}/${month + 1}/${date}`,
                 text : lmitteText,
                 createdAt : Date.now(),
                 creatorId : userObj.uid,
+                creatorPhoto : userObj.photoURL,
                 fileUrl
             }
             await dbService.collection('lmittes').add(lmitte);
