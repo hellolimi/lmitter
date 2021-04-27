@@ -88,7 +88,7 @@ const Profile = ( {refreshUser, userObj} ) => {
                 return(
                     <li key={myLmitte.id} >
                         <h4>{myLmitte.text}</h4>
-                        <img src={myLmitte.fileUrl} alt="" width="200" />
+                        {myLmitte.fileUrl.length>0&&<img src={myLmitte.fileUrl} alt="" width="200" />}
                     </li>
                 ); 
             })}
