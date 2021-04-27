@@ -7,14 +7,15 @@ const Home = ({userObj}) => {
     const [lmittes, setLmittes] = useState([]);
     const getLmittes = useCallback(() => {
         dbService.collection('lmittes').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
-            setLoading(false);
             const LmitteArray = snapshot.docs.map(doc => ({...doc.data(), id: doc.id}));
             setLmittes(LmitteArray);
         });
     }, []);
     useEffect(() => {
         getLmittes();
-        
+        return () => {
+            setLmittes([]);
+        }
     }, [getLmittes]);
     return(
         <>
