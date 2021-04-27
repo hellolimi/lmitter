@@ -4,6 +4,26 @@ import React, { useState } from 'react';
 const Lmitte = ({lmitteObj, isOwner}) => {
     const [edit, setEdit] = useState(false);
     const [newLmitte, setNewLmitte] = useState(lmitteObj.text);
+
+    let TIME = Date.now();
+
+    let timeView;
+    let passedTime = (TIME - lmitteObj.createdAt)/1000;
+    if(passedTime < 60 ){
+        timeView = 'now';
+    }else if(Math.floor(passedTime / 60) === 60){
+        timeView = '1 minute ago'
+    }else if(Math.floor(passedTime / 60) < 60 * 60){
+        timeView = `${Math.floor(passedTime / 60)} mintues ago`
+    }else if(Math.floor(passedTime / 60) === 60 * 60){
+        timeView = '1 hour ago'
+    }
+    else if(60*60<Math.floor(passedTime / 60)<24*60*60){
+        timeView =`${Math.floor(passedTime / 60 / 60)} hours ago`
+    }else{
+        timeView = `${lmitteObj.date}`
+    }
+
     const toggleEdit = () => setEdit(prev => !prev);
     const onChange = e => {
         const {value} = e.target;
@@ -41,7 +61,7 @@ const Lmitte = ({lmitteObj, isOwner}) => {
                     <img src={lmitteObj.creatorPhoto} alt="" width="50"/>
                     <h4>{lmitteObj.text}</h4>
                     {lmitteObj.fileUrl && <img src={lmitteObj.fileUrl} width="100px" alt="" />}
-                    <span className="date">{lmitteObj.date}</span>
+                    <span className="date">{timeView}</span>
                     {
                         isOwner&&(<>
                             <button onClick={toggleEdit}>edit</button>
