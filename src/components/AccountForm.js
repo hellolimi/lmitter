@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import {authSerive} from 'myBase';
+import {authSerive, storageService} from 'myBase';
 
-function AccoutForm() {
+function AccountForm({refreshUser}) {
     const initialInputs = {
         username: '',
         email:'',
@@ -19,16 +19,19 @@ function AccoutForm() {
     }
     const onSubmit = async(e) => {
         e.preventDefault();
+        const logoRef = await storageService.ref(`logo/`).listAll();
+        const logo = await logoRef.items[0].getDownloadURL();
         try{
             await authSerive.createUserWithEmailAndPassword( email,  password );
             authSerive.onAuthStateChanged((user) => {
-
                 if (user) {
-                user.updateProfile({ 
-                    displayName: username,
-                })
+                    user.updateProfile({ 
+                        displayName: username,
+                        photoURL: logo
+                    });
                 }
             });
+            setTimeout(refreshUser, 900);
         }catch(error){
             setError(error.message);
         }
@@ -46,4 +49,4 @@ function AccoutForm() {
     );
 }
 
-export default AccoutForm;
+export default AccountForm;
