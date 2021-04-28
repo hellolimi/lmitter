@@ -45,7 +45,7 @@ const Profile = ( {refreshUser, userObj} ) => {
         }
         if(newPhoto){
             const allPhotos = await storageService.ref(`profile/${userObj.uid}`).listAll();
-            await allPhotos.items.map(item => item.delete());
+            allPhotos.items.map(item => item.delete());
            
             const fileReference = storageService.ref().child(`profile/${userObj.uid}/${uuidv4()}`);
             const response = await fileReference.putString(newPhoto, 'data_url');
@@ -65,7 +65,9 @@ const Profile = ( {refreshUser, userObj} ) => {
 
    useEffect(() => {
     getMyLmittes();
-  
+    return () => {
+        setMyLmittes([]);
+    }
    }, [getMyLmittes]);
 
     return <>
