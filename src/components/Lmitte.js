@@ -11,14 +11,14 @@ const Lmitte = ({lmitteObj, isOwner}) => {
     let passedTime = (TIME - lmitteObj.createdAt)/1000;
     if(passedTime < 60 ){
         timeView = 'now';
-    }else if(Math.floor(passedTime / 60) === 60){
+    }else if(Math.floor(passedTime) === 60){
         timeView = '1 minute ago'
-    }else if(Math.floor(passedTime / 60) < 60 * 60){
+    }else if(Math.floor(passedTime) < 60 * 60){
         timeView = `${Math.floor(passedTime / 60)} mintues ago`
-    }else if(Math.floor(passedTime / 60) === 60 * 60){
+    }else if(Math.floor(passedTime) === 60 * 60){
         timeView = '1 hour ago'
     }
-    else if(60*60<Math.floor(passedTime / 60)<24*60*60){
+    else if(Math.floor(passedTime) < 24 * 60 * 60){
         timeView =`${Math.floor(passedTime / 60 / 60)} hours ago`
     }else{
         timeView = `${lmitteObj.date}`
@@ -58,7 +58,8 @@ const Lmitte = ({lmitteObj, isOwner}) => {
                     </>}
                 </>:
                 <>
-                    <img src={lmitteObj.creatorPhoto} alt="" width="50"/>
+                    <img src={lmitteObj.creatorPhoto} alt="profile" width="50"/>
+                    <span>{lmitteObj.creator}</span>
                     <h4>{lmitteObj.text}</h4>
                     {lmitteObj.fileUrl && <img src={lmitteObj.fileUrl} width="100px" alt="" />}
                     <span className="date">{timeView}</span>
