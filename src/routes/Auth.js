@@ -1,9 +1,9 @@
 import { authSerive, firebaseInstance } from 'myBase';
 import React, { useState } from 'react';
 import AuthForm from 'components/AuthForm';
-import AccoutForm from 'components/AccoutForm';
+import AccountForm from 'components/AccountForm';
 
-const Auth = () => {
+const Auth = ({refreshUser}) => {
     const [newAccount, setNewaccount] = useState(true);
  
     const toggleAccount = () => setNewaccount(prev => !prev);
@@ -20,7 +20,7 @@ const Auth = () => {
 
     return <>
     <div>
-        {newAccount?<AccoutForm />:<AuthForm />}
+        {newAccount?<AccountForm refreshUser={refreshUser} />:<AuthForm />}
         <span onClick={toggleAccount}>{newAccount?"Sign in":"Create Account"}</span>
         <button name="googgle" onClick={onSocialClick} >Continue with Google</button>
         <button name="github" onClick={onSocialClick} >Continue with Github</button>
