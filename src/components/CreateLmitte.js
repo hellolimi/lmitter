@@ -25,6 +25,7 @@ function CreateLmitte({userObj}) {
                 text : lmitteText,
                 createdAt : Date.now(),
                 creatorId : userObj.uid,
+                creator : userObj.displayName,
                 creatorPhoto : userObj.photoURL,
                 fileUrl
             }
