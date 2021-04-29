@@ -6,7 +6,6 @@ const Lmitte = ({lmitteObj, isOwner}) => {
     const [newLmitte, setNewLmitte] = useState(lmitteObj.text);
 
     let TIME = Date.now();
-
     let timeView;
     let passedTime = (TIME - lmitteObj.createdAt)/1000;
     if(passedTime < 60 ){
@@ -63,12 +62,10 @@ const Lmitte = ({lmitteObj, isOwner}) => {
                     <h4>{lmitteObj.text}</h4>
                     {lmitteObj.fileUrl && <img src={lmitteObj.fileUrl} width="100px" alt="" />}
                     <span className="date">{timeView}</span>
-                    {
-                        isOwner&&(<>
+                    {isOwner&&<>
                             <button onClick={toggleEdit}>edit</button>
                             <button onClick={onDeleteClick}>delete</button>
-                        </>)
-                    }
+                    </>}
             </>}
         </li>
     );

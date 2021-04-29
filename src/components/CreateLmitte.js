@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 function CreateLmitte({userObj}) {
     const [lmitteText, setLmitteText] = useState('');
     const [fileData, setFileData] = useState('');
-
+    
     const onSubmit = async(e) => {
         e.preventDefault();
         let fileUrl = '';
