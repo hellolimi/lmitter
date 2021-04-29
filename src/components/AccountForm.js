@@ -14,7 +14,6 @@ function AccountForm({refreshUser}) {
     const {username, email, password} = inputs;
     const onChange = (e) => {
         const {name, value} = e.target;
-
         setInput({...inputs, [name] : value});
     }
     const onSubmit = async(e) => {
@@ -43,7 +42,7 @@ function AccountForm({refreshUser}) {
                 <input name="email" type="text" placeholder="Email" value={email} required onChange={onChange} />
                 <input name="password" type="password" placeholder="Password" value={password} required onChange={onChange} />
                 <input type="submit" value="Create Account" />
-                {error}
+                <span>{error}</span>
             </form>
         </div>
     );
