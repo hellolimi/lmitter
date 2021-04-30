@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { dbService } from 'myBase';
 import Lmitte from 'components/Lmitte';
 import CreateLmitte from 'components/CreateLmitte';
-import 'scss/home.scss';
+import LoadingBar from 'components/LoadingBar';
 
 const Home = ({userObj}) => {
     const [lmittes, setLmittes] = useState([]);
@@ -30,19 +30,7 @@ const Home = ({userObj}) => {
     return(
         <>
             <CreateLmitte userObj={userObj} />
-            {loading&&<div className="loading">
-                <div className="loading">
-                    <svg>
-                        <defs>
-                            <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%"   stop-color="#ff7bac"/>
-                            <stop offset="100%" stop-color="#06a3c4"/>
-                            </linearGradient>
-                        </defs>
-                        <circle cx="50" cy="50" r="10" stroke="url(#linear)" />
-                    </svg>
-                </div>
-            </div>}
+            {loading&&<LoadingBar />}
             <ul>
                 {lmittes.map(lmitte => <Lmitte key={lmitte.id} lmitteObj={lmitte} isOwner={lmitte.creatorId === userObj.uid} />)}
             </ul>
