@@ -3,9 +3,11 @@ import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import Auth from 'routes/Auth';
 import Home from 'routes/Home';
 import Navigation from 'components/Navigation';
-import Profile from 'routes/Profile';
+import MyProfile from 'routes/MyProfile';
+import OtherProfile from 'routes/OtherProfile';
 
 const AppRouter = ({isLoggedIn, userObj, refreshUser}) => {
+
     return (
         <Router>
             <Switch>
@@ -16,7 +18,10 @@ const AppRouter = ({isLoggedIn, userObj, refreshUser}) => {
                             <Home userObj={userObj} />
                         </Route>
                         <Route exact path="/profile">
-                            <Profile userObj={userObj} refreshUser={refreshUser} />
+                            <MyProfile userObj={userObj} refreshUser={refreshUser} />
+                        </Route>
+                        <Route path={`/profile/:userName/:userId`}>
+                            <OtherProfile />
                         </Route>
                     </>
                     :

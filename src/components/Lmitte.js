@@ -58,8 +58,12 @@ const Lmitte = ({lmitteObj, isOwner}) => {
                     </>}
                 </>:
                 <>
-                    <img src={lmitteObj.creatorPhoto} alt="profile" width="50"/>
-                    <span>{lmitteObj.creator}</span>
+                    <Link to={`/profile/${lmitteObj.creator}/${lmitteObj.creatorId}`}>
+                        <div className="creator">
+                            <img src={lmitteObj.creatorPhoto} alt="profile" width="50"/>
+                            <span>{lmitteObj.creator}</span>
+                        </div>
+                    </Link>
                     <h4>{lmitteObj.text}</h4>
                     {lmitteObj.fileUrl && <img src={lmitteObj.fileUrl} width="100px" alt="" />}
                     <span className="date">{timeView}</span>
