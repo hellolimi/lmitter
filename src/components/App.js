@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import AppRouter from 'components/Router';
 import { authSerive } from 'myBase';
+import 'scss/common.scss';
 
 function App() {
   const [init, setInit] = useState(false);
