@@ -35,7 +35,6 @@ function CreateLmitte({userObj}) {
         }else{
             window.alert("Sorry! You can't upload an empty post!");
         }
-        
     }
     const onChange = e => {
         const {value} = e.target;

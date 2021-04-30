@@ -1,5 +1,6 @@
-import { dbService, storageService } from 'myBase';
 import React, { useState } from 'react';
+import { dbService, storageService } from 'myBase';
+import { Link } from 'react-router-dom';
 
 const Lmitte = ({lmitteObj, isOwner}) => {
     const [edit, setEdit] = useState(false);
