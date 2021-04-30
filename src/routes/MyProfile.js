@@ -2,12 +2,14 @@ import { authSerive, dbService, storageService } from 'myBase';
 import React, { useCallback, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useHistory } from 'react-router';
-
+ 
 const Profile = ( {refreshUser, userObj} ) => {
     const [myLmittes, setMyLmittes] = useState([]);
-
-    const [newNickname, setNewNickname] = useState(userObj.displayName);
-    const [newPhoto, setNewPhoto] = useState();
+    const [newProfile, setNewProfile] = useState({
+        newName : userObj.displayName,
+        newPhoto : ''
+    });
+    const {newName, newPhoto} = newProfile;
 
     const [update, setUpdate]  = useState(false);
 
@@ -16,12 +18,12 @@ const Profile = ( {refreshUser, userObj} ) => {
         authSerive.signOut();
         history.push('/');
     };
-    const onToggle = () => {
+    const onToggle = useCallback(() => {
         setUpdate(prev => !prev);
-    }
+    }, []);
     const onChangeName = e => {
         const {value} = e.target;
-        setNewNickname(value);
+        setNewProfile({...newProfile, newName : value});
     }
     const onFileChange = e => {
         const {files} = e.target;
@@ -30,20 +32,30 @@ const Profile = ( {refreshUser, userObj} ) => {
         reader.readAsDataURL(theFile);
         reader.onloadend = (finishedEvent) => {
             const {result} = finishedEvent.currentTarget;
-            setNewPhoto(result);
+            setNewProfile({...newProfile, newPhoto: result});
         }
     }
     const onClearPhoto = () => {
-        setNewPhoto(null);
+        setNewProfile({...newProfile, newPhoto: ''});
     }
     const onSubmit = async (e) => {
         e.preventDefault();
-        if(userObj.displayName !== newNickname){
+        let updateList;
+        dbService.collection('lmittes').where('creatorId', '==', userObj.uid).onSnapshot(snapshot => {
+            updateList = snapshot.docs.map(doc => doc.id);
+        });
+        
+        if(userObj.displayName !== newName){
             await userObj.updateProfile({
-                displayName : newNickname
+                displayName : newName
             });
+            for(var i in updateList){
+                await dbService.doc(`lmittes/${updateList[i]}`).update({
+                    creator: newName
+                });
+            }
         }
-        if(newPhoto){
+        if(newPhoto.length > 0){
             const allPhotos = await storageService.ref(`profile/${userObj.uid}`).listAll();
             allPhotos.items.map(item => item.delete());
            
@@ -53,7 +65,13 @@ const Profile = ( {refreshUser, userObj} ) => {
             await userObj.updateProfile({
                 photoURL: fileUrl
             });
+            for(var j in updateList){
+                await dbService.doc(`lmittes/${updateList[j]}`).update({
+                    creatorPhoto: fileUrl
+                });
+            }
         }
+
         refreshUser();
         setUpdate(false);
     }
@@ -78,9 +96,9 @@ const Profile = ( {refreshUser, userObj} ) => {
             {update&&<>
                 <form onSubmit={onSubmit}>
                     <input type="file" accept="image/*" onChange={onFileChange} />
-                    {newPhoto&&<img src={newPhoto} alt="" width="100" />}
+                    {newPhoto.length>0&&<img src={newPhoto} alt="" width="100" />}
                     <button type="button" onClick={onClearPhoto}>Clear Photo</button>
-                    <input type="text" placeholder="Set your nickname" value={newNickname} onChange={onChangeName} />
+                    <input type="text" placeholder="Set your nickname" value={newName} onChange={onChangeName} />
                     <button type="submit">Update Profile</button>
                 </form>
             </>}
@@ -89,8 +107,9 @@ const Profile = ( {refreshUser, userObj} ) => {
             {myLmittes.map(myLmitte => {
                 return(
                     <li key={myLmitte.id} >
-                        <h4>{myLmitte.text}</h4>
                         {myLmitte.fileUrl.length>0&&<img src={myLmitte.fileUrl} alt="" width="200" />}
+                        <h4>{myLmitte.text}</h4>
+                        <span className="date">{myLmitte.date}</span>
                     </li>
                 ); 
             })}
