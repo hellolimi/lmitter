@@ -6,7 +6,6 @@ import LoadingBar from 'components/LoadingBar';
 
 const Home = ({userObj}) => {
     const [lmittes, setLmittes] = useState([]);
-    const [loading, setLoading] = useState(false);
     const getLmittes = useCallback(() => {
         dbService.collection('lmittes').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
             const LmitteArray = snapshot.docs.map(doc => ({...doc.data(), id: doc.id}));
@@ -20,17 +19,10 @@ const Home = ({userObj}) => {
         }
     }, [getLmittes]);
 
-    useEffect(() => {
-        setTimeout(() => {setLoading(false);}, 1000);
-        return () => {
-            setLoading(true);
-        }
-    }, [lmittes]);
-
     return(
         <>
             <CreateLmitte userObj={userObj} />
-            {loading&&<LoadingBar />}
+            <LoadingBar loadingOn={lmittes}/>
             <ul>
                 {lmittes.map(lmitte => <Lmitte key={lmitte.id} lmitteObj={lmitte} isOwner={lmitte.creatorId === userObj.uid} />)}
             </ul>
