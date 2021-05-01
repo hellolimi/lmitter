@@ -1,6 +1,7 @@
 import { dbService, storageService } from 'myBase';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
+import LoadingBar from 'components/LoadingBar';
 
 const OtherProfile = () => {
     let { userName, userId } = useParams();
@@ -41,6 +42,7 @@ const OtherProfile = () => {
             <img src={yourPhoto} alt="" width="100" />
             <h3>{userName}</h3>
         </div>
+        <LoadingBar loadingOn={yourLmittes} />
         <ul>
             {yourLmittes.map(lmitte => {
                 return(

@@ -2,6 +2,7 @@ import { authSerive, dbService, storageService } from 'myBase';
 import React, { useCallback, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useHistory } from 'react-router';
+import LoadingBar from 'components/LoadingBar';
  
 const Profile = ( {refreshUser, userObj} ) => {
     const [myLmittes, setMyLmittes] = useState([]);
@@ -82,16 +83,17 @@ const Profile = ( {refreshUser, userObj} ) => {
     }, [userObj.uid]); 
 
    useEffect(() => {
-    getMyLmittes();
-    return () => {
-        setMyLmittes([]);
-    }
+        getMyLmittes();
+        return () => {
+            setMyLmittes([]);
+        }
    }, [getMyLmittes]);
 
     return <>
         <div className="myProfile">
             <img src={userObj.photoURL} alt="" width="100" />
             <h3>{userObj.displayName}</h3>
+            <LoadingBar loadingOn={userObj}/> 
             <button type="button" onClick={onToggle}>Update</button>
             {update&&<>
                 <form onSubmit={onSubmit}>
@@ -103,6 +105,7 @@ const Profile = ( {refreshUser, userObj} ) => {
                 </form>
             </>}
         </div>
+        <LoadingBar loadingOn={myLmittes}/>
         <ul>
             {myLmittes.map(myLmitte => {
                 return(
