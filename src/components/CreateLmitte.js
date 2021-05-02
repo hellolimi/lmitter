@@ -27,7 +27,9 @@ function CreateLmitte({userObj}) {
                 creatorId : userObj.uid,
                 creator : userObj.displayName,
                 creatorPhoto : userObj.photoURL,
-                fileUrl
+                fileUrl,
+                likedId : [],
+                comments : []
             }
             await dbService.collection('lmittes').add(lmitte);
             setLmitteText('');
