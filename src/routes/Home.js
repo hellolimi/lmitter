@@ -24,7 +24,7 @@ const Home = ({userObj}) => {
             <CreateLmitte userObj={userObj} />
             <LoadingBar loadingOn={lmittes}/>
             <ul>
-                {lmittes.map(lmitte => <Lmitte key={lmitte.id} lmitteObj={lmitte} isOwner={lmitte.creatorId === userObj.uid} />)}
+                {lmittes.map(lmitte => <Lmitte key={lmitte.id} lmitteObj={lmitte} userUid={userObj.uid} /* isOwner={lmitte.creatorId === userObj.uid} */ />)}
             </ul>
         </>
     );   
