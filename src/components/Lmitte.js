@@ -1,16 +1,12 @@
 import React, { useState } from 'react';
 import { dbService, storageService } from 'myBase';
 import { Link } from 'react-router-dom';
-import { MdFavoriteBorder, MdFavorite, MdChatBubbleOutline } from "react-icons/md";
+import SocialBlock from './SocialBlock';
+
 
 const Lmitte = ({lmitteObj, userUid}) => {
     const [edit, setEdit] = useState(false);
     const [newLmitte, setNewLmitte] = useState(lmitteObj.text);
-
-    const [like, setLike] = useState(false);
-    const [comment, setComment] = useState(false);
-    const [input, setInput] = useState();
-    const [comId, setComId] = useState(0);
 
     let TIME = Date.now();
     let timeView;
@@ -51,39 +47,7 @@ const Lmitte = ({lmitteObj, userUid}) => {
            await dbService.doc(`lmittes/${lmitteObj.id}`).delete();
         }
     }
-    const { likedId, comments } = lmitteObj;
-    const onLike = async (e) => {
-        e.preventDefault();
-        setLike(prev => !prev);
-        if(like){
-            await dbService.doc(`lmittes/${lmitteObj.id}`).update({
-                likedId : likedId.concat(userUid)
-            })
-        }else{
-            await dbService.doc(`lmittes/${lmitteObj.id}`).update({
-                likedId : likedId.filter(id => id !== userUid)
-            })
-        }
-    }
-    const commentToggle = () => {
-        setComment(prev => !prev);
-    }
-    const onChangeComment = e => {
-        const {value} = e.target;
-        setInput(value);
-    }
-    const onSubmitComment = async (e) => {
-        e.preventDefault();
-        const aComment = {
-            text: input,
-            creatorId : userUid,
-            id : comId
-        }
-        await dbService.doc(`lmittes/${lmitteObj.id}`).update({
-            comments : comments.concat(aComment)
-        })
-        setComId(prev => prev++);
-    }
+    
     return(
         <li>
             {edit?<>
@@ -96,7 +60,7 @@ const Lmitte = ({lmitteObj, userUid}) => {
                     </>}
                 </>:
                 <>
-                    <Link to={`/profile/${lmitteObj.creator}/${lmitteObj.creatorId}`}>
+                    <Link to={lmitteObj.creatorId === userUid?'/profile':`/profile/${lmitteObj.creator}/${lmitteObj.creatorId}`}>
                         <div className="creator">
                             <img src={lmitteObj.creatorPhoto} alt="profile" width="50"/>
                             <span>{lmitteObj.creator}</span>
@@ -109,17 +73,7 @@ const Lmitte = ({lmitteObj, userUid}) => {
                             <button onClick={toggleEdit}>edit</button>
                             <button onClick={onDeleteClick}>delete</button>
                     </>}
-                    <button onClick={onLike}>{like?<MdFavorite />:<MdFavoriteBorder />}</button>
-                    <span>{comments.length}</span><button onClick={commentToggle}><MdChatBubbleOutline /></button>
-                    {comment&&<>
-                        <form onSubmit={onSubmitComment}>
-                            <input type="text" placeholder="Leave your comment" onChange={onChangeComment} />
-                            <button>comment</button>
-                        </form>
-                        {comments.length>0&&<ul className="comment">
-                            {comments.map(comment => <li key={comId}>{comment.text}</li>)}
-                        </ul>}
-                    </>}
+                    <SocialBlock userUid={userUid} lmitteObj={lmitteObj} />
             </>}
         </li>
     );
