@@ -14,7 +14,7 @@ function App() {
           displayName : user.displayName,
           uid: user.uid,
           photoURL: user.photoURL,
-          updateProfile: (args) => user.updateProfile(args),
+          updateProfile: (args) => user.updateProfile(args)
         });
       }else{
         setUserObj(null);
