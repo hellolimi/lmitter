@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
 import {storageService, dbService} from 'myBase';
 import { v4 as uuidv4 } from 'uuid';
+import { useUserContext } from 'Context';
 
-function CreateLmitte({userObj}) {
+function CreateLmitte() {
+    const user = useUserContext();
     const [lmitteText, setLmitteText] = useState('');
     const [fileData, setFileData] = useState('');
     
@@ -16,7 +18,7 @@ function CreateLmitte({userObj}) {
 
         if(lmitteText !== '' || fileData !== ''){
             if(fileData !== ''){
-                const fileReference = storageService.ref().child(`lmittes/${userObj.uid}/${uuidv4()}`);
+                const fileReference = storageService.ref().child(`lmittes/${user.uid}/${uuidv4()}`);
                 const response = await fileReference.putString(fileData, 'data_url');
                 fileUrl = await response.ref.getDownloadURL();
             }
@@ -24,9 +26,7 @@ function CreateLmitte({userObj}) {
                 date : `${year}/${month + 1}/${date}`,
                 text : lmitteText,
                 createdAt : Date.now(),
-                creatorId : userObj.uid,
-                creator : userObj.displayName,
-                creatorPhoto : userObj.photoURL,
+                creatorId : user.uid,
                 fileUrl,
                 likedId : [],
                 comments : []

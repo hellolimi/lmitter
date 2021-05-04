@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import { dbService } from 'myBase';
+import { Link } from 'react-router-dom';
 import { MdFavoriteBorder, MdFavorite, MdChatBubbleOutline } from "react-icons/md";
+import { useUserContext } from 'Context';
+import { v4 as uuidv4 } from 'uuid';
 
-function SocialBlock({lmitteObj, userUid}) {
+function SocialBlock({lmitteObj}) {
+    const user = useUserContext();
+    const {uid, displayName} = user;
     const [like, setLike] = useState(false);
     const [comment, setComment] = useState(false);
-    const [input, setInput] = useState();
-    const [comId, setComId] = useState(0);
+    const [input, setInput] = useState('');
+    const [comId, setComId] = useState(uuidv4());
 
     const { likedId, comments } = lmitteObj;
 
@@ -15,11 +20,11 @@ function SocialBlock({lmitteObj, userUid}) {
         setLike(prev => !prev);
         if(!like){
             await dbService.doc(`lmittes/${lmitteObj.id}`).update({
-                likedId : likedId.concat(userUid)
+                likedId : likedId.concat(uid)
             });
         }else{
             await dbService.doc(`lmittes/${lmitteObj.id}`).update({
-                likedId : likedId.filter(id => id !== userUid)
+                likedId : likedId.filter(id => id !== uid)
             })
         }
     }
@@ -34,25 +39,30 @@ function SocialBlock({lmitteObj, userUid}) {
         e.preventDefault();
         const aComment = {
             text: input,
-            creatorId : userUid,
+            creatorId : uid,
+            creator : displayName,
             id : comId
         }
         await dbService.doc(`lmittes/${lmitteObj.id}`).update({
             comments : comments.concat(aComment)
         })
-        setComId(prev => prev++);
+        setComId(prev => uuidv4());
+        setInput('');
     }
     return (
         <div>
-            <button onClick={onLike}>{like?<MdFavorite />:<MdFavoriteBorder />}</button>
+            <span>{likedId.length}</span><button onClick={onLike}>{like?<MdFavorite />:<MdFavoriteBorder />}</button>
             <span>{comments.length}</span><button onClick={onComment}><MdChatBubbleOutline /></button>
             {comment&&<>
                 <form onSubmit={onSubmitComment}>
-                    <input type="text" placeholder="Leave your comment" onChange={onChangeComment} />
+                    <input type="text" placeholder="Leave your comment" value={input} onChange={onChangeComment} />
                     <button>comment</button>
                 </form>
                 {comments.length>0&&<ul className="comment">
-                    {comments.map(comment => <li key={comId}>{comment.text}</li>)}
+                    {comments.map(comment => <li key={comment.id}>
+                        <Link to={uid === comment.creatorId?'/profile':`/profile/${comment.creatorId}`}>{comment.creator}</Link>
+                        {comment.text}
+                    </li>)}
                 </ul>}
             </>}
         </div>

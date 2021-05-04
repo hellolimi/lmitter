@@ -1,15 +1,17 @@
 import React, {useState} from 'react';
-import {authSerive, storageService} from 'myBase';
+import {authService, dbService } from 'myBase';
+import { useRefreshUser } from 'Context';
+import logo from 'img/logo512.png';
 
-function AccountForm({refreshUser}) {
+function AccountForm() {
     const initialInputs = {
         username: '',
         email:'',
         password:''
     };
-
     const [inputs, setInput] = useState(initialInputs);
     const [error, setError] = useState('');
+    const refreshUser = useRefreshUser();
 
     const {username, email, password} = inputs;
     const onChange = (e) => {
@@ -18,16 +20,22 @@ function AccountForm({refreshUser}) {
     }
     const onSubmit = async(e) => {
         e.preventDefault();
-        const logoRef = await storageService.ref(`logo/`).listAll();
-        const logo = await logoRef.items[0].getDownloadURL();
         try{
-            await authSerive.createUserWithEmailAndPassword( email,  password );
-            authSerive.onAuthStateChanged((user) => {
+            await authService.createUserWithEmailAndPassword( email,  password );
+            authService.onAuthStateChanged((user) => {
                 if (user) {
                     user.updateProfile({ 
                         displayName: username,
                         photoURL: logo
                     });
+                    const newUser = {
+                        date : user.metadata.creationTime,
+                        email : user.email,
+                        username : username,
+                        userId : user.uid,
+                        photoURL : logo
+                    }
+                    dbService.collection(`users`).add(newUser);
                 }
             });
             setTimeout(refreshUser, 900);

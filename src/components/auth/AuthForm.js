@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {authSerive} from 'myBase';
+import {authService} from 'myBase';
 
 function AuthForm() {
     const initialInputs = {
@@ -19,8 +19,7 @@ function AuthForm() {
     const onSubmit = async(e) => {
         e.preventDefault();
         try{
-            await authSerive.signInWithEmailAndPassword( email,  password );
-
+            await authService.signInWithEmailAndPassword( email,  password );
         }catch(error){
             setError(error.message);
         }
