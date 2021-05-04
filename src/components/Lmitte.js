@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { dbService, storageService } from 'myBase';
-import { Link } from 'react-router-dom';
-import SocialBlock from './SocialBlock';
+import { useUserContext } from 'Context';
+import SocialBlock from 'components/home/SocialBlock';
 
-
-const Lmitte = ({lmitteObj, userUid}) => {
+const Lmitte = ({lmitteObj}) => {
+    const user = useUserContext();
     const [edit, setEdit] = useState(false);
     const [newLmitte, setNewLmitte] = useState(lmitteObj.text);
+    
+    const isCreator = Boolean(lmitteObj.creatorId === user.uid);
 
     let TIME = Date.now();
     let timeView;
@@ -49,9 +51,9 @@ const Lmitte = ({lmitteObj, userUid}) => {
     }
     
     return(
-        <li>
+        <div>
             {edit?<>
-                    {userUid === lmitteObj.creatorId&&<>
+                    {isCreator&&<>
                         <form onSubmit={onSubmit}>
                             <input type="text" placeholder="Edit your lmitte!" value ={newLmitte} required onChange={onChange} />
                             <button type="submit">Update Lmitte</button>
@@ -60,22 +62,16 @@ const Lmitte = ({lmitteObj, userUid}) => {
                     </>}
                 </>:
                 <>
-                    <Link to={lmitteObj.creatorId === userUid?'/profile':`/profile/${lmitteObj.creator}/${lmitteObj.creatorId}`}>
-                        <div className="creator">
-                            <img src={lmitteObj.creatorPhoto} alt="profile" width="50"/>
-                            <span>{lmitteObj.creator}</span>
-                        </div>
-                    </Link>
                     <h4>{lmitteObj.text}</h4>
                     {lmitteObj.fileUrl && <img src={lmitteObj.fileUrl} width="100px" alt="" />}
                     <span className="date">{timeView}</span>
-                    {userUid === lmitteObj.creatorId&&<>
+                    {isCreator&&<>
                             <button onClick={toggleEdit}>edit</button>
                             <button onClick={onDeleteClick}>delete</button>
                     </>}
-                    <SocialBlock userUid={userUid} lmitteObj={lmitteObj} />
+                    <SocialBlock lmitteObj={lmitteObj} />
             </>}
-        </li>
+        </div>
     );
 }
 
