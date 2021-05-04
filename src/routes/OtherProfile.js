@@ -1,54 +1,47 @@
-import { dbService, storageService } from 'myBase';
+import { dbService } from 'myBase';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
+import Lmitte from 'components/Lmitte';
 import LoadingBar from 'components/LoadingBar';
 
 const OtherProfile = () => {
-    let { userName, userId } = useParams();
-    const [yourPhoto, setYourPhoto] = useState();
-    const [yourLmittes, setYourLmittes] = useState([]);
+    let { userId } = useParams();
+    const [userLmittes, setUserLmittes] = useState([]);
 
-    const getPhoto = useCallback(async () => {
-            const photoRef = await storageService.ref(`profile/${userId}`).listAll();
-            let fileUrl;
-            if(photoRef){
-                fileUrl = await photoRef.items[0].getDownloadURL();
-            }else{
-                const logoRef = await storageService.ref(`logo/`).listAll();
-                fileUrl = await logoRef.items[0].getDownloadURL();
-            }
-            setYourPhoto(fileUrl); 
-    }, [userId]);
-
+    const [thisUser, setThisUser] = useState({});
+    const getThisUser = useCallback(() => {
+        dbService.collection('users').where('userId', '==', userId).onSnapshot(snapshot => {
+            const userArray = snapshot.docs.map(doc => ({...doc.data(), id: doc.id}));
+            setThisUser(userArray[0]);
+        });
+    },[userId]);
     useEffect(() => {
-        getPhoto();
-    }, [getPhoto]);
+        getThisUser();
+    }, [getThisUser]);
 
     const getYourLmittes =  useCallback(async () => {
         const lmittes = await dbService.collection('lmittes').where('creatorId', '==', userId).orderBy('createdAt', 'desc').get();
-        const yourLmitte =  lmittes.docs.map(doc => ({...doc.data(), id: doc.id}));
-        setYourLmittes(yourLmitte);
+        const userLmitte =  lmittes.docs.map(doc => ({...doc.data(), id: doc.id}));
+        setUserLmittes(userLmitte);
     }, [userId]); 
-
    useEffect(() => {
-    getYourLmittes();
-    return () => {
-        setYourLmittes([]);
-    }
+        getYourLmittes();
+        return () => {
+            setUserLmittes([]);
+        }
    }, [getYourLmittes]);
 
     return <>
         <div className="myProfile">
-            <img src={yourPhoto} alt="" width="100" />
-            <h3>{userName}</h3>
+            <img src={thisUser.photoURL} alt="" width="100" />
+            <h3>{thisUser.username}</h3>
         </div>
-        <LoadingBar loadingOn={yourLmittes} />
+        <LoadingBar loadingOn={userLmittes} />
         <ul>
-            {yourLmittes.map(lmitte => {
+            {userLmittes.map(lmitte => {
                 return(
-                    <li key={lmitte.id} >
-                        <h4>{lmitte.text}</h4>
-                        {lmitte.fileUrl.length>0&&<img src={lmitte.fileUrl} alt="" width="200" />}
+                    <li key={lmitte.id}>
+                        <Lmitte lmitteObj={lmitte} />
                     </li>
                 ); 
             })}

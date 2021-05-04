@@ -5,29 +5,32 @@ import Home from 'routes/Home';
 import Navigation from 'components/Navigation';
 import MyProfile from 'routes/MyProfile';
 import OtherProfile from 'routes/OtherProfile';
+import { useUserContext } from 'Context';
 
-const AppRouter = ({isLoggedIn, userObj, refreshUser}) => {
-
+const AppRouter = () => {
+    const user = useUserContext();
+    const isLoggedIn = Boolean(user.uid);
+    
     return (
         <Router>
             <Switch>
                 {isLoggedIn?
                     <>
-                        <Navigation userObj={userObj} />
+                        <Navigation />
                         <Route exact path="/">
-                            <Home userObj={userObj} />
+                            <Home />
                         </Route>
                         <Route exact path="/profile">
-                            <MyProfile userObj={userObj} refreshUser={refreshUser} />
+                            <MyProfile />
                         </Route>
-                        <Route path={`/profile/:userName/:userId`}>
+                        <Route path={`/profile/:userId`}>
                             <OtherProfile />
                         </Route>
                     </>
                     :
                     <>
                         <Route exact path="/">
-                            <Auth refreshUser={refreshUser} />
+                            <Auth />
                         </Route>
                     </>
                 }

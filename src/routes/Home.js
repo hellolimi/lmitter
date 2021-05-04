@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { dbService } from 'myBase';
 import Lmitte from 'components/Lmitte';
-import CreateLmitte from 'components/CreateLmitte';
+import CreateLmitte from 'components/home/CreateLmitte';
 import LoadingBar from 'components/LoadingBar';
+import CreatorInfo from 'components/home/CreatorInfo';
 
-const Home = ({userObj}) => {
+const Home = () => {
     const [lmittes, setLmittes] = useState([]);
     const getLmittes = useCallback(() => {
         dbService.collection('lmittes').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
@@ -21,10 +22,13 @@ const Home = ({userObj}) => {
 
     return(
         <>
-            <CreateLmitte userObj={userObj} />
-            <LoadingBar loadingOn={lmittes}/>
+            <CreateLmitte />
+            {lmittes.length !== 0 && <LoadingBar loadingOn={lmittes}/>}
             <ul>
-                {lmittes.map(lmitte => <Lmitte key={lmitte.id} lmitteObj={lmitte} userUid={userObj.uid} /* isOwner={lmitte.creatorId === userObj.uid} */ />)}
+                {lmittes.map(lmitte => <li key={lmitte.id}>
+                    <CreatorInfo lmitteObj={lmitte}/>
+                    <Lmitte key={lmitte.id} lmitteObj={lmitte} />
+                </li>)}
             </ul>
         </>
     );   

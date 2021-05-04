@@ -1,9 +1,10 @@
-import { authSerive, firebaseInstance } from 'myBase';
+import { authService, firebaseInstance, dbService } from 'myBase';
 import React, { useState } from 'react';
-import AuthForm from 'components/AuthForm';
-import AccountForm from 'components/AccountForm';
+import AuthForm from 'components/auth/AuthForm';
+import JoinForm from 'components/auth/JoinForm';
 
-const Auth = ({refreshUser}) => {
+
+const Auth = () => {
     const [newAccount, setNewaccount] = useState(true);
  
     const toggleAccount = () => setNewaccount(prev => !prev);
