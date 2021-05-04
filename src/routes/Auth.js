@@ -16,12 +16,28 @@ const Auth = () => {
         }else if(name === 'github'){
            provider = new firebaseInstance.auth.GithubAuthProvider();
         }
-        await authSerive.signInWithPopup(provider);
+        await authService.signInWithPopup(provider);
+        authService.onAuthStateChanged((user) => {
+            if(user){
+                dbService.collection('users').where('userId', '==', user.uid).onSnapshot(snapshot => {
+                    if(snapshot.docs.length === 0){
+                         const newUser = {
+                             date : user.metadata.creationTime,
+                             email : user.email,
+                             username : user.displayName,
+                             userId : user.uid,
+                             photoURL : user.photoURL
+                         }
+                         dbService.collection(`users`).add(newUser);
+                    }
+                 });   
+            }
+        });
     }
 
     return <>
     <div>
-        {newAccount?<AccountForm refreshUser={refreshUser} />:<AuthForm />}
+        {newAccount?<JoinForm />:<AuthForm />}
         <span onClick={toggleAccount}>{newAccount?"Sign in":"Create Account"}</span>
         <button name="googgle" onClick={onSocialClick} >Continue with Google</button>
         <button name="github" onClick={onSocialClick} >Continue with Github</button>
