@@ -9,11 +9,10 @@ const OtherProfile = () => {
     const [userLmittes, setUserLmittes] = useState([]);
 
     const [thisUser, setThisUser] = useState({});
-    const getThisUser = useCallback(() => {
-        dbService.collection('users').where('userId', '==', userId).onSnapshot(snapshot => {
-            const userArray = snapshot.docs.map(doc => ({...doc.data(), id: doc.id}));
-            setThisUser(userArray[0]);
-        });
+    const getThisUser = useCallback(async () => {
+        const ref = await dbService.collection('users').where('userId', '==', userId).get();
+        const userData = ref.docs[0].data();
+        setThisUser(userData);
     },[userId]);
     useEffect(() => {
         getThisUser();
