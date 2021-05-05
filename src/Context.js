@@ -43,20 +43,16 @@ export const UserProvider = ({ children }) => {
 
 export function useUserContext(){
     const context = useContext(UserContext);
-
     if(!context){
         throw new Error('Can not find userContext');
     }
-
     return context;
 }
 
 export function useRefreshUser(){
     const context = useContext(RefreshUser);
-
     if(!context){
         throw new Error('Can not find resfreshUser function');
     }
-
     return context;
 }

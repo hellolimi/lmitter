@@ -7,11 +7,8 @@ function App() {
 
   return (
     <UserProvider>
-{/* 
-    {init?:"Initializing"} */
-    }
-    <AppRouter />
-    <footer>&copy; {new Date().getFullYear()} Lmitter</footer>
+      <AppRouter />
+      <footer>&copy; {new Date().getFullYear()} Lmitter</footer>
     </UserProvider>
   );
 }
