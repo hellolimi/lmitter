@@ -22,13 +22,34 @@ function CreatorInfo({lmitteObj}) {
         }
     }, [getCreator]);
 
+    let TIME = Date.now();
+    let timeView;
+    let passedTime = (TIME - lmitteObj.createdAt)/1000;
+    if(passedTime < 60 ){
+        timeView = 'now';
+    }else if(Math.floor(passedTime) === 60){
+        timeView = '1 minute ago'
+    }else if(Math.floor(passedTime) < 60 * 60){
+        timeView = `${Math.floor(passedTime / 60)} mintues ago`
+    }else if(Math.floor(passedTime) === 60 * 60){
+        timeView = '1 hour ago'
+    }
+    else if(Math.floor(passedTime) < 24 * 60 * 60){
+        timeView =`${Math.floor(passedTime / 60 / 60)} hours ago`
+    }else{
+        timeView = `${lmitteObj.date}`
+    }
+
     return (
-        <Link to={isCreator?'/profile':`/profile/${lmitteObj.creatorId}`}>
-            <div className="creator">
-                <img src={creator.photoURL} alt="profile" width="50"/>
-                <span>{creator.username}</span>
-            </div>
-        </Link>
+        <div>
+            <Link to={isCreator?'/profile':`/profile/${lmitteObj.creatorId}`}>
+                <div className="creator">
+                    <img src={creator.photoURL} alt="profile" width="50"/>
+                    <span>{creator.username}</span>
+                </div>
+            </Link>
+            <span className="date">{timeView}</span>
+        </div>
     );
 }
 

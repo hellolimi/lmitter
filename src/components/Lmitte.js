@@ -10,24 +10,6 @@ const Lmitte = ({lmitteObj}) => {
     
     const isCreator = Boolean(lmitteObj.creatorId === user.uid);
 
-    let TIME = Date.now();
-    let timeView;
-    let passedTime = (TIME - lmitteObj.createdAt)/1000;
-    if(passedTime < 60 ){
-        timeView = 'now';
-    }else if(Math.floor(passedTime) === 60){
-        timeView = '1 minute ago'
-    }else if(Math.floor(passedTime) < 60 * 60){
-        timeView = `${Math.floor(passedTime / 60)} mintues ago`
-    }else if(Math.floor(passedTime) === 60 * 60){
-        timeView = '1 hour ago'
-    }
-    else if(Math.floor(passedTime) < 24 * 60 * 60){
-        timeView =`${Math.floor(passedTime / 60 / 60)} hours ago`
-    }else{
-        timeView = `${lmitteObj.date}`
-    }
-
     const toggleEdit = () => setEdit(prev => !prev);
     const onChange = e => {
         const {value} = e.target;
@@ -64,7 +46,6 @@ const Lmitte = ({lmitteObj}) => {
                 <>
                     <h4>{lmitteObj.text}</h4>
                     {lmitteObj.fileUrl && <img src={lmitteObj.fileUrl} width="100px" alt="" />}
-                    <span className="date">{timeView}</span>
                     {isCreator&&<>
                             <button onClick={toggleEdit}>edit</button>
                             <button onClick={onDeleteClick}>delete</button>
