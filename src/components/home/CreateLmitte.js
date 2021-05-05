@@ -57,6 +57,10 @@ function CreateLmitte() {
     }
     return (
         <div>
+            <div className="myInfo">
+                <img src={user.photoURL} alt="my profile"/>
+                <p>{user.displayName}</p>
+            </div>
             <form onSubmit={onSubmit}>
                 <input value={lmitteText} type="text" placeholder="What's on your mind?" onChange={onChange} />
                 <input type="file" accept="image/*" onChange={onFileChange}/>
