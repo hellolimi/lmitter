@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { dbService } from 'myBase';
 import { Link } from 'react-router-dom';
 import { MdFavoriteBorder, MdFavorite, MdChatBubbleOutline } from "react-icons/md";
@@ -8,12 +8,25 @@ import { v4 as uuidv4 } from 'uuid';
 function SocialBlock({lmitteObj}) {
     const user = useUserContext();
     const {uid, displayName} = user;
+
     const [like, setLike] = useState(false);
     const [comment, setComment] = useState(false);
     const [input, setInput] = useState('');
     const [comId, setComId] = useState(uuidv4());
 
     const { likedId, comments } = lmitteObj;
+    
+    const getLikeInfo = useCallback( async () => {
+        const ref = await dbService.doc(`lmittes/${lmitteObj.id}`).get();
+        const lmitteData = ref.data();
+        lmitteData.likedId.map(id => id === uid?setLike(true):setLike(false));
+    }, [lmitteObj, uid]);
+    useEffect(() => {
+        getLikeInfo();
+        return () => {
+            setLike(false);
+        }
+    }, [getLikeInfo]);
 
     const onLike = async (e) => {
         e.preventDefault();
