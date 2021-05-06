@@ -2,7 +2,7 @@ import { authService, firebaseInstance, dbService } from 'myBase';
 import React, { useState } from 'react';
 import AuthForm from 'components/auth/AuthForm';
 import JoinForm from 'components/auth/JoinForm';
-
+import logo from 'img/logo_clean.png';
 
 const Auth = () => {
     const [newAccount, setNewaccount] = useState(true);
@@ -36,7 +36,14 @@ const Auth = () => {
     }
 
     return <>
-    <div>
+    <div className="accountForm">
+        <h1>
+            <img src={logo} alt="logo"/>
+            <div>
+                <span>lmitter</span>
+                <p>Get on Our Social Waves</p>
+            </div>
+        </h1>
         {newAccount?<JoinForm />:<AuthForm />}
         <span onClick={toggleAccount}>{newAccount?"Sign in":"Create Account"}</span>
         <button name="googgle" onClick={onSocialClick} >Continue with Google</button>

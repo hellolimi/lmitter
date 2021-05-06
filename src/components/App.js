@@ -6,10 +6,12 @@ import { UserProvider } from 'Context';
 function App() {
 
   return (
-    <UserProvider>
-      <AppRouter />
-      <footer>&copy; {new Date().getFullYear()} Lmitter</footer>
-    </UserProvider>
+    <div className="bodyWrap">
+      <UserProvider>
+        <AppRouter />
+        <footer>&copy; {new Date().getFullYear()} Lmitter</footer>
+      </UserProvider>
+    </div>
   );
 }
 

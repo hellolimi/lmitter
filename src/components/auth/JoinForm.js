@@ -49,7 +49,7 @@ function AccountForm() {
                 <input name="username" type="text" placeholder="Your Name" value={username} required onChange={onChange} />
                 <input name="email" type="text" placeholder="Email" value={email} required onChange={onChange} />
                 <input name="password" type="password" placeholder="Password" value={password} required onChange={onChange} />
-                <input type="submit" value="Create Account" />
+                <button type="submit">Create Account</button>
                 <span>{error}</span>
             </form>
         </div>
