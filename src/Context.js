@@ -1,11 +1,12 @@
 import React, { useEffect, useState, createContext, useContext } from "react";
-import { authService } from "myBase";
+import { authService, dbService } from "myBase";
 
-const UserContext = createContext();
+const CurrentUserContext = createContext();
 const RefreshUser = createContext();
+const GetUserData = createContext();
 
 export const UserProvider = ({ children }) => {
-    const [user, setUser] = useState({});
+  const [user, setUser] = useState({});
 
   useEffect(() => {
     authService.onAuthStateChanged(user => {
@@ -20,7 +21,19 @@ export const UserProvider = ({ children }) => {
             setUser({});
         } 
     });
+    return () => {
+      setUser({});
+    }
   }, []);
+
+  const getUserData = async (uid) => {
+    const ref = await dbService.collection('users').where('userId', '==', uid).get();
+    const userInfo = {
+      data : ref.docs[0].data(),
+      id : ref.docs[0].id
+    }
+    return userInfo;
+  }
 
   const refreshUser = () => {
     const user = authService.currentUser;
@@ -33,16 +46,18 @@ export const UserProvider = ({ children }) => {
   }
 
   return (
-    <UserContext.Provider value={user}>
+    <CurrentUserContext.Provider value={user}>
         <RefreshUser.Provider value={refreshUser}>
+          <GetUserData.Provider value={getUserData}>
             {children}
+          </GetUserData.Provider>
         </RefreshUser.Provider>  
-    </UserContext.Provider>
+    </CurrentUserContext.Provider>
   );
 };
 
 export function useUserContext(){
-    const context = useContext(UserContext);
+    const context = useContext(CurrentUserContext);
     if(!context){
         throw new Error('Can not find userContext');
     }
@@ -55,4 +70,12 @@ export function useRefreshUser(){
         throw new Error('Can not find resfreshUser function');
     }
     return context;
+}
+
+export function useUserData(){
+  const context = useContext(GetUserData);
+  if(!context){
+    throw new Error('Can not find GetUserData function');
+  }
+  return context;
 }
