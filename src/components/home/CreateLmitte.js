@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {storageService, dbService} from 'myBase';
 import { v4 as uuidv4 } from 'uuid';
 import { useUserContext } from 'Context';
+import photoIcon from 'img/photo_icon.png';
 
 function CreateLmitte() {
     const user = useUserContext();
@@ -56,24 +57,27 @@ function CreateLmitte() {
         setFileData('');
     }
     return (
-        <div>
-            <div className="myInfo">
-                <img src={user.photoURL} alt="my profile"/>
-                <p>{user.displayName}</p>
-            </div>
-            <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit}>
+            <fieldset>
                 <input value={lmitteText} type="text" placeholder="What's on your mind?" onChange={onChange} />
-                <input type="file" accept="image/*" onChange={onFileChange}/>
-                {fileData&& 
-                    <>
-                        <img src={fileData} width="50" alt="" />
+                <input id="photo" type="file" accept="image/*" onChange={onFileChange}/>
+                {fileData?
+                    <div>
+                        <figure>
+                            <img src={fileData} alt="upload file" />
+                        </figure>
                         <button onClick={clearFileData}>Clear Image</button>
-                    </>
+                    </div>
+                    :<label htmlFor="photo">
+                    <img src={photoIcon} alt="icon" />
+                    <span>Add a photo...</span>
+                </label>
                 }
-                <input type="submit" value="Lmitte" />
-            </form>
-        </div>
+                
+            </fieldset>
+            <button type="submit">Lmitte</button>
+        </form>
     );
 }
 
-export default CreateLmitte;
+export default React.memo(CreateLmitte);

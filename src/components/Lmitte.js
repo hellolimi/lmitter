@@ -1,26 +1,71 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { dbService, storageService } from 'myBase';
-import { useUserContext } from 'Context';
+import { useUserContext, useUserData } from 'Context';
 import SocialBlock from 'components/home/SocialBlock';
 
 const Lmitte = ({lmitteObj}) => {
     const user = useUserContext();
-    const [edit, setEdit] = useState(false);
+    const userFile = useUserData();
     const [newLmitte, setNewLmitte] = useState(lmitteObj.text);
-    
-    const isCreator = Boolean(lmitteObj.creatorId === user.uid);
+    const [creator, setCreator] = useState({});
+    const isCreator = useMemo(() => {
+        return Boolean(user.uid === lmitteObj.creatorId);
+    }, [user.uid, lmitteObj.creatorId]);
 
-    const toggleEdit = () => setEdit(prev => !prev);
-    const onChange = e => {
+    const [toggle, setToggle] = useState({
+        edit : false,
+        option : false
+    });
+    const {edit, option} = toggle;
+    
+    const getCreator = useCallback( async () => {
+        const userInfo = await userFile(lmitteObj.creatorId);
+        setCreator(userInfo.data);
+    },[lmitteObj.creatorId, userFile]);
+    
+    useEffect(() => {
+        getCreator();
+        return () => {
+            setCreator({});
+        }
+    }, [getCreator]);
+
+    let TIME = Date.now();
+    let timeView;
+    let passedTime = (TIME - lmitteObj.createdAt)/1000;
+    if(passedTime < 60 ){
+        timeView = 'now';
+    }else if(Math.floor(passedTime) === 60){
+        timeView = '1 minute ago'
+    }else if(Math.floor(passedTime) < 60 * 60){
+        timeView = `${Math.floor(passedTime / 60)} mintues ago`
+    }else if(Math.floor(passedTime) === 60 * 60){
+        timeView = '1 hour ago'
+    }
+    else if(Math.floor(passedTime) < 24 * 60 * 60){
+        timeView =`${Math.floor(passedTime / 60 / 60)} hours ago`
+    }else{
+        timeView = `${lmitteObj.date}`
+    }
+
+    const onToggle = e => {
+        const {name} = e.target;
+        setToggle(prev => ({...prev, [name]:!prev[name]}));
+    }
+    const onEditCancel = () => {
+        setToggle(prev => !prev);
+    }
+    const onChange = useCallback(e => {
         const {value} = e.target;
         setNewLmitte(value);
-    }
+    }, []);
     const onSubmit = async (e) => {
         e.preventDefault();
         await dbService.doc(`lmittes/${lmitteObj.id}`).update({
             text: newLmitte
         });
-        setEdit(false);
+        setToggle(prev => !prev);
     }
     const onDeleteClick = async () => {
         const ok = window.confirm('Do you really want to delete this lmitte?');
@@ -32,28 +77,42 @@ const Lmitte = ({lmitteObj}) => {
         }
     }
     
-    return(
-        <div>
-            {edit?<>
-                    {isCreator&&<>
-                        <form onSubmit={onSubmit}>
-                            <input type="text" placeholder="Edit your lmitte!" value ={newLmitte} required onChange={onChange} />
-                            <button type="submit">Update Lmitte</button>
-                        </form>
-                        <button type="button" onClick={toggleEdit}>Cancel</button>
-                    </>}
-                </>:
-                <>
-                    <h4>{lmitteObj.text}</h4>
-                    {lmitteObj.fileUrl && <img src={lmitteObj.fileUrl} width="100px" alt="" />}
-                    {isCreator&&<>
-                            <button onClick={toggleEdit}>edit</button>
-                            <button onClick={onDeleteClick}>delete</button>
-                    </>}
-                    <SocialBlock lmitteObj={lmitteObj} />
-            </>}
+    return(<>
+        <div className="creatorInfo">
+            <div className="left">
+                <Link to={isCreator?'/profile':`/profile/${lmitteObj.creatorId}`} className="creator">
+                    <figure>
+                        <img src={creator.photoURL} alt="profile" width="50"/>
+                    </figure>
+                    <span>{creator.username}</span>
+                </Link>
+                <span className="date">{timeView}</span>
+            </div>
+            <div className="right">
+                {isCreator&&<>
+                    <button name="option" onClick={onToggle}>• • •</button>
+                    {option&&<ul>
+                        <li><button name="edit" onClick={onToggle}>edit</button></li>
+                        <li><button onClick={onDeleteClick}>delete</button></li>
+                    </ul>}   
+                </>}
+            </div>
         </div>
-    );
+        {edit?<>
+                {isCreator&&<>
+                    <form onSubmit={onSubmit}>
+                        <input type="text" placeholder="Edit your lmitte!" value ={newLmitte} required onChange={onChange} />
+                        <button type="submit">Update Lmitte</button>
+                    </form>
+                    <button type="button" onClick={onEditCancel}>Cancel</button>
+                </>}
+            </>:
+            <>
+                <h4>{lmitteObj.text}</h4>
+                {lmitteObj.fileUrl && <img src={lmitteObj.fileUrl} width="100px" alt="" />}
+                <SocialBlock lmitteObj={lmitteObj} />
+        </>}
+    </>);
 }
 
-export default Lmitte;
+export default React.memo(Lmitte);

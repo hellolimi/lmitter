@@ -3,17 +3,17 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import Lmitte from 'components/Lmitte';
 import LoadingBar from 'components/LoadingBar';
+import { useUserData } from 'Context';
 
 const OtherProfile = () => {
     let { userId } = useParams();
     const [userLmittes, setUserLmittes] = useState([]);
-
+    const userFile = useUserData();
     const [thisUser, setThisUser] = useState({});
     const getThisUser = useCallback(async () => {
-        const ref = await dbService.collection('users').where('userId', '==', userId).get();
-        const userData = ref.docs[0].data();
-        setThisUser(userData);
-    },[userId]);
+        const userInfo = await userFile(userId);
+        setThisUser(userInfo.data);
+    },[userId, userFile]);
     useEffect(() => {
         getThisUser();
     }, [getThisUser]);
@@ -34,6 +34,7 @@ const OtherProfile = () => {
         <div className="myProfile">
             <img src={thisUser.photoURL} alt="" width="100" />
             <h3>{thisUser.username}</h3>
+            <p>{thisUser.userIntro}</p>
         </div>
         <LoadingBar loadingOn={userLmittes} />
         <ul>

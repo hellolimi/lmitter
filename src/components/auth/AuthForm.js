@@ -25,15 +25,13 @@ function AuthForm() {
         }
     } 
     return (
-        <div>
-            <form onSubmit={onSubmit}>
-                <input name="email" type="text" placeholder="Email" value={email} required onChange={onChange} />
-                <input name="password" type="password" placeholder="Password" value={password} required onChange={onChange} />
-                <button type="submit">Log In</button>
-                {error}
-            </form>
-        </div>
+        <form onSubmit={onSubmit} className="loginForm">
+            <input name="email" type="text" placeholder="Email" value={email} required onChange={onChange} />
+            <input name="password" type="password" placeholder="Password" value={password} required onChange={onChange} />
+            <button type="submit">Log In</button>
+            {error}
+        </form>
     );
 }
 
-export default AuthForm;
+export default React.memo(AuthForm);

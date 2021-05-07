@@ -33,7 +33,8 @@ function AccountForm() {
                         email : user.email,
                         username : username,
                         userId : user.uid,
-                        photoURL : logo
+                        photoURL : logo,
+                        userIntro : `Hello, I am ${username}`
                     }
                     dbService.collection(`users`).add(newUser);
                 }
@@ -44,16 +45,14 @@ function AccountForm() {
         }
     } 
     return (
-        <div>
-            <form onSubmit={onSubmit}>
-                <input name="username" type="text" placeholder="Your Name" value={username} required onChange={onChange} />
-                <input name="email" type="text" placeholder="Email" value={email} required onChange={onChange} />
-                <input name="password" type="password" placeholder="Password" value={password} required onChange={onChange} />
-                <button type="submit">Create Account</button>
-                <span>{error}</span>
-            </form>
-        </div>
+        <form onSubmit={onSubmit} className="joinForm">
+            <input name="username" type="text" placeholder="Your Name" value={username} required onChange={onChange} />
+            <input name="email" type="text" placeholder="Email" value={email} required onChange={onChange} />
+            <input name="password" type="password" placeholder="Password" value={password} required onChange={onChange} />
+            <button type="submit">Create Account</button>
+            <span>{error}</span>
+        </form>
     );
 }
 
-export default AccountForm;
+export default React.memo(AccountForm);
