@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/hellolimi/lmitter.git/static/css/main.0eb0694c.chunk.css",
-    "main.js": "/hellolimi/lmitter.git/static/js/main.0c94ad8c.chunk.js",
-    "main.js.map": "/hellolimi/lmitter.git/static/js/main.0c94ad8c.chunk.js.map",
-    "runtime-main.js": "/hellolimi/lmitter.git/static/js/runtime-main.8b63e6d7.js",
-    "runtime-main.js.map": "/hellolimi/lmitter.git/static/js/runtime-main.8b63e6d7.js.map",
-    "static/js/2.0327a474.chunk.js": "/hellolimi/lmitter.git/static/js/2.0327a474.chunk.js",
-    "static/js/2.0327a474.chunk.js.map": "/hellolimi/lmitter.git/static/js/2.0327a474.chunk.js.map",
-    "index.html": "/hellolimi/lmitter.git/index.html",
-    "static/css/main.0eb0694c.chunk.css.map": "/hellolimi/lmitter.git/static/css/main.0eb0694c.chunk.css.map",
-    "static/js/2.0327a474.chunk.js.LICENSE.txt": "/hellolimi/lmitter.git/static/js/2.0327a474.chunk.js.LICENSE.txt",
-    "static/media/logo512.dd2eb858.png": "/hellolimi/lmitter.git/static/media/logo512.dd2eb858.png",
-    "static/media/logo_clean.dd6c899f.png": "/hellolimi/lmitter.git/static/media/logo_clean.dd6c899f.png"
+    "main.css": "/hellolimi/lmitter/static/css/main.0eb0694c.chunk.css",
+    "main.js": "/hellolimi/lmitter/static/js/main.0c94ad8c.chunk.js",
+    "main.js.map": "/hellolimi/lmitter/static/js/main.0c94ad8c.chunk.js.map",
+    "runtime-main.js": "/hellolimi/lmitter/static/js/runtime-main.d97f363c.js",
+    "runtime-main.js.map": "/hellolimi/lmitter/static/js/runtime-main.d97f363c.js.map",
+    "static/js/2.13fc148c.chunk.js": "/hellolimi/lmitter/static/js/2.13fc148c.chunk.js",
+    "static/js/2.13fc148c.chunk.js.map": "/hellolimi/lmitter/static/js/2.13fc148c.chunk.js.map",
+    "index.html": "/hellolimi/lmitter/index.html",
+    "static/css/main.0eb0694c.chunk.css.map": "/hellolimi/lmitter/static/css/main.0eb0694c.chunk.css.map",
+    "static/js/2.13fc148c.chunk.js.LICENSE.txt": "/hellolimi/lmitter/static/js/2.13fc148c.chunk.js.LICENSE.txt",
+    "static/media/logo512.dd2eb858.png": "/hellolimi/lmitter/static/media/logo512.dd2eb858.png",
+    "static/media/logo_clean.dd6c899f.png": "/hellolimi/lmitter/static/media/logo_clean.dd6c899f.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.8b63e6d7.js",
-    "static/js/2.0327a474.chunk.js",
+    "static/js/runtime-main.d97f363c.js",
+    "static/js/2.13fc148c.chunk.js",
     "static/css/main.0eb0694c.chunk.css",
     "static/js/main.0c94ad8c.chunk.js"
   ]
