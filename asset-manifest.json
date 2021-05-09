@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/lmitter/static/css/main.0eb0694c.chunk.css",
-    "main.js": "/lmitter/static/js/main.0c94ad8c.chunk.js",
-    "main.js.map": "/lmitter/static/js/main.0c94ad8c.chunk.js.map",
+    "main.js": "/lmitter/static/js/main.25c5ee04.chunk.js",
+    "main.js.map": "/lmitter/static/js/main.25c5ee04.chunk.js.map",
     "runtime-main.js": "/lmitter/static/js/runtime-main.3d695f6c.js",
     "runtime-main.js.map": "/lmitter/static/js/runtime-main.3d695f6c.js.map",
     "static/js/2.7db95abd.chunk.js": "/lmitter/static/js/2.7db95abd.chunk.js",
@@ -10,13 +10,12 @@
     "index.html": "/lmitter/index.html",
     "static/css/main.0eb0694c.chunk.css.map": "/lmitter/static/css/main.0eb0694c.chunk.css.map",
     "static/js/2.7db95abd.chunk.js.LICENSE.txt": "/lmitter/static/js/2.7db95abd.chunk.js.LICENSE.txt",
-    "static/media/logo512.dd2eb858.png": "/lmitter/static/media/logo512.dd2eb858.png",
     "static/media/logo_clean.dd6c899f.png": "/lmitter/static/media/logo_clean.dd6c899f.png"
   },
   "entrypoints": [
     "static/js/runtime-main.3d695f6c.js",
     "static/js/2.7db95abd.chunk.js",
     "static/css/main.0eb0694c.chunk.css",
-    "static/js/main.0c94ad8c.chunk.js"
+    "static/js/main.25c5ee04.chunk.js"
   ]
 }
