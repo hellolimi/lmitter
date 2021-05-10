@@ -11,8 +11,7 @@ $headerHeight : 80px;
         img{ width:100%; height:100%; object-fit: cover; }
 }
 
-@mixin lmittes {
-    padding-bottom: $footerHeight;
+@mixin lmittes { width: 100%; padding-bottom: $footerHeight;
     > li{ 
         padding:40px; border-bottom:1px solid #666;
         &:last-child{border:none;} 
@@ -50,4 +49,23 @@ $headerHeight : 80px;
             }
         }
     }
+}
+
+@mixin photoInput {
+    display:flex; align-items:center; cursor: pointer; img{ margin-right:10px; }
+}
+
+@mixin LmitteForm {
+    display:flex; 
+    fieldset{ flex:7; border:none; margin-right:20px;
+            input{ width:100%; margin-bottom:20px; padding:10px; border-radius:4px; background-color:transparent; border:1px solid #FF7BAC; &::placeholder{color:#ededed;}}
+            & > div{
+                figure{ display:flex; justify-content:center; align-items:flex-start; width:220px; height:220px; margin-bottom:20px; border-radius:4px; overflow:hidden; 
+                    img{ width:100%; height:100%; object-fit:cover; }
+                }
+                display:flex; flex-direction:column; justify-content:center; align-items:center;
+            }
+        }
+    label{ @include photoInput }
+    button{ flex:1; height:fit-content; @include buttons(#5CC1FF); } 
 }
