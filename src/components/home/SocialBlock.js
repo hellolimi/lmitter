@@ -19,7 +19,9 @@ function SocialBlock({lmitteObj}) {
     const getLikeInfo = useCallback( async () => {
         const ref = await dbService.doc(`lmittes/${lmitteObj.id}`).get();
         const lmitteData = ref.data();
-        lmitteData.likedId.map(id => id === uid?setLike(true):setLike(false));
+        const likedArray = lmitteData.likedId.filter(id => id === uid);
+        likedArray.length>0&&setLike(true);
+
     }, [lmitteObj, uid]);
     useEffect(() => {
         getLikeInfo();
