@@ -1,70 +1,32 @@
-# Getting Started with Create React App
+# lmitter
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## To realize baisc Social Media platform
 
-## Available Scripts
+*quick view*
+<img src="lmitter.gif" alt="sample" />
 
-In the project directory, you can run:
+## link
+    https://hellolimi.github.io/lmitter/#/
 
-### `yarn start`
+## Fundamental Works
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- using React.js to realize Single Page Application
+- using Firebase to set up database in the app
+- using SCSS to add style in the app
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Notable Functions
 
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- to join the application with name, email and password
+- to show error message to users when they fill the join form incorrectly
+- to sign in with the joined account or Google/GitHub provider
+- to deliver user data & refresh-user fucntion to other components using Context API
+- to create 'lmittes' - text & image contents in the platform
+- to edit my 'lmittes'
+- to delete my 'lmittes'
+- to press like button for each 'lmitte' and show the counts of the likes
+- to leave a comment for each 'lmitte'
+- to change 'profile status' in my profile page
+- to visit other people's profile pages
+- to check 'lmittes' from each user in their own profile page
+- to create 'loading spinner' component using 'useEffect' hooks
+- to log out and return to root path using 'useHistory' from 'react-router'
