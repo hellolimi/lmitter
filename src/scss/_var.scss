@@ -1,4 +1,4 @@
-$footerHeight : 100px;
+$footerHeight : 70px;
 $headerHeight : 80px;
 
 @mixin buttons ($color){
@@ -11,61 +11,6 @@ $headerHeight : 80px;
         img{ width:100%; height:100%; object-fit: cover; }
 }
 
-@mixin lmittes { width: 100%; padding-bottom: $footerHeight;
-    > li{ 
-        padding:40px; border-bottom:1px solid #666;
-        &:last-child{border:none;} 
-        .creatorInfo{ display:flex; justify-content:space-between; width:100%; margin-bottom:20px;
-            .left{ display:flex; align-items:center; }
-            .creator{
-                display: flex; align-items: center;
-                figure{@include proPic(48px, 12px); margin-right:10px;}
-                span{ font-weight:400; }
-            }
-            .date{ margin-left:30px; font-size:16px; color:#999; }
-            .right{ 
-                position:relative;
-                button{ display:flex; flex-direction:column; padding:0; height:100%; background:transparent; font-size:18px; color:#999; } 
-                ul{ position:absolute; top:0; right:40px; padding:5px 0; border-radius:4px; background-color:#333;
-                    li{ width:100%;
-                        button{ display:flex; justify-content:center; align-items:center; width:100%; padding:10px; border:none; color:#fff;}
-                    }
-                }
-            }
-        }
-        .lmitteText{ padding:10px 0; line-height:27px; }
-        > img{ width:320px; height:320px; object-fit:cover; padding:10px 0; }
-        .socialBlock{ 
-            .socialLine{ width:100%;
-                button{ background-color:transparent; &:first-of-type{ margin-right:10px; } } 
-            }
-            form{ display:flex; justify-content:space-between; width:100%; padding:10px 0;
-                input{ flex:10; margin-right:20px; padding:10px; background-color:transparent; border:1px solid #FF7BAC; border-radius:4px;
-                        &::placeholder{ color:#ededed; } }
-                button{ flex:1; @include buttons(#5CC1FF)}
-            }
-            .comment{ width:100%; padding:20px; background-color:#333; border-radius:4px;
-                li{ padding:5px 0; a{ font-weight:400; margin-right:16px; } }
-            }
-        }
-    }
-}
-
 @mixin photoInput {
     display:flex; align-items:center; cursor: pointer; img{ margin-right:10px; }
-}
-
-@mixin LmitteForm {
-    display:flex; 
-    fieldset{ flex:7; border:none; margin-right:20px;
-            input{ width:100%; margin-bottom:20px; padding:10px; border-radius:4px; background-color:transparent; border:1px solid #FF7BAC; &::placeholder{color:#ededed;}}
-            & > div{
-                figure{ display:flex; justify-content:center; align-items:flex-start; width:220px; height:220px; margin-bottom:20px; border-radius:4px; overflow:hidden; 
-                    img{ width:100%; height:100%; object-fit:cover; }
-                }
-                display:flex; flex-direction:column; justify-content:center; align-items:center;
-            }
-        }
-    label{ @include photoInput }
-    button{ flex:1; height:fit-content; @include buttons(#5CC1FF); } 
 }
