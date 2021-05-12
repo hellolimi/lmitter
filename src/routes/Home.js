@@ -23,7 +23,7 @@ const Home = () => {
     }, [getLmittes]);
 
     return(
-        <>
+        <div className="home wrap">
             <div className="userForm">
                 <div className="myInfo">
                     <figure>
@@ -39,7 +39,7 @@ const Home = () => {
                     <Lmitte lmitteObj={lmitte} />
                 </li>)}
             </ul>
-        </>
+        </div>
     );   
 }
 

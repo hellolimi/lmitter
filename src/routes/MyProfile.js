@@ -1,5 +1,5 @@
-import { dbService } from 'myBase';
 import React, { useCallback, useEffect, useState } from 'react';
+import { dbService } from 'myBase';
 import LoadingBar from 'components/LoadingBar';
 import MyInfo from 'components/profile/MyInfo';
 import { useUserContext } from 'Context';
@@ -11,9 +11,10 @@ const Profile = () => {
     const [myLmittes, setMyLmittes] = useState([]);
         
     const getMyLmittes = useCallback(async () => {
-        const lmittes = await dbService.collection('lmittes').where('creatorId', '==', user.uid).orderBy('createdAt', 'desc').get();
-        const myLmitte =  lmittes.docs.map(doc => ({...doc.data(), id: doc.id}));
-        setMyLmittes(myLmitte);
+        dbService.collection('lmittes').where('creatorId', '==', user.uid).orderBy('createdAt', 'desc').onSnapshot(snapshot => {
+            const myLmitte = snapshot.docs.map(doc => ({...doc.data(), id: doc.id}));
+            setMyLmittes(myLmitte);
+        });
     }, [user.uid]); 
 
    useEffect(() => {
@@ -23,11 +24,11 @@ const Profile = () => {
         }
    }, [getMyLmittes]);
 
-    return <>
+    return <div className="myProfile wrap">
         <MyInfo />
         <CreateLmitte />
         <LoadingBar loadingOn={myLmittes}/>
-        <ul>
+        <ul className="lmittes">
             {myLmittes.map(myLmitte => {
                 return(
                     <li key={myLmitte.id} >
@@ -36,7 +37,7 @@ const Profile = () => {
                 ); 
             })}
         </ul>
-    </>
+    </div>
 }
 
 export default React.memo(Profile);

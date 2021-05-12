@@ -30,14 +30,14 @@ const OtherProfile = () => {
         }
    }, [getYourLmittes]);
 
-    return <>
-        <div className="myProfile">
+    return <div className="yourProfile wrap">
+        <div className="userInfo">
             <img src={thisUser.photoURL} alt="" width="100" />
             <h3>{thisUser.username}</h3>
             <p>{thisUser.userIntro}</p>
         </div>
         <LoadingBar loadingOn={userLmittes} />
-        <ul>
+        <ul className="lmittes">
             {userLmittes.map(lmitte => {
                 return(
                     <li key={lmitte.id}>
@@ -46,7 +46,7 @@ const OtherProfile = () => {
                 ); 
             })}
         </ul>
-    </>
+    </div>
 }
 
 export default React.memo(OtherProfile);

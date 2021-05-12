@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {storageService, dbService} from 'myBase';
 import { v4 as uuidv4 } from 'uuid';
 import { useUserContext } from 'Context';
@@ -8,7 +8,26 @@ function CreateLmitte() {
     const user = useUserContext();
     const [lmitteText, setLmitteText] = useState('');
     const [fileData, setFileData] = useState('');
+    const fileInput = useRef();
     
+    const onChange = useCallback(e => {
+        const {value} = e.target;
+        setLmitteText(prev => value);
+    }, []);
+    const onFileChange = useCallback(e => {
+        const {files} = e.target;
+        const theFile = files[0];
+        const reader = new FileReader();
+        reader.onloadend = (finishedEvent) => {
+            const {result} = finishedEvent.currentTarget;
+            setFileData(result);
+        }
+        reader.readAsDataURL(theFile);
+    }, []);
+    const clearFileData = () => {
+        setFileData('');
+        fileInput.current.value = '';
+    }
     const onSubmit = async(e) => {
         e.preventDefault();
         let fileUrl = '';
@@ -34,33 +53,16 @@ function CreateLmitte() {
             }
             await dbService.collection('lmittes').add(lmitte);
             setLmitteText('');
-            setFileData('');
+            clearFileData();
         }else{
             window.alert("Sorry! You can't upload an empty post!");
         }
     }
-    const onChange = e => {
-        const {value} = e.target;
-        setLmitteText(value);
-    }
-    const onFileChange = e => {
-        const {files} = e.target;
-        const theFile = files[0];
-        const reader = new FileReader();
-        reader.onloadend = (finishedEvent) => {
-            const {result} = finishedEvent.currentTarget;
-            setFileData(result);
-        }
-        reader.readAsDataURL(theFile);
-    }
-    const clearFileData = () => {
-        setFileData('');
-    }
     return (
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} className="lmitteForm">
             <fieldset>
                 <input value={lmitteText} type="text" placeholder="What's on your mind?" onChange={onChange} />
-                <input id="photo" type="file" accept="image/*" onChange={onFileChange}/>
+                <input id="lmittePhoto" type="file" accept="image/*" onChange={onFileChange} ref={fileInput} />
                 {fileData?
                     <div>
                         <figure>
@@ -68,10 +70,10 @@ function CreateLmitte() {
                         </figure>
                         <button onClick={clearFileData}>Clear Image</button>
                     </div>
-                    :<label htmlFor="photo">
-                    <img src={photoIcon} alt="icon" />
-                    <span>Add a photo...</span>
-                </label>
+                    :<label htmlFor="lmittePhoto">
+                        <img src={photoIcon} alt="icon" />
+                        <span>Add a photo...</span>
+                    </label>
                 }
                 
             </fieldset>

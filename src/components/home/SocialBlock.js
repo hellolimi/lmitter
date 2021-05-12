@@ -63,9 +63,11 @@ function SocialBlock({lmitteObj}) {
         setInput('');
     }
     return (
-        <div>
-            <span>{likedId.length}</span><button onClick={onLike}>{like?<MdFavorite />:<MdFavoriteBorder />}</button>
-            <span>{comments.length}</span><button onClick={onComment}><MdChatBubbleOutline /></button>
+        <div className="socialBlock">
+            <div className="socialLine">
+                <span>{likedId.length}</span><button onClick={onLike}>{like?<MdFavorite />:<MdFavoriteBorder />}</button>
+                <span>{comments.length}</span><button onClick={onComment}><MdChatBubbleOutline /></button>
+            </div>
             {comment&&<>
                 <form onSubmit={onSubmitComment}>
                     <input type="text" placeholder="Leave your comment" value={input} onChange={onChangeComment} />

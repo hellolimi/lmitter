@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {authService, dbService } from 'myBase';
 import { useRefreshUser } from 'Context';
-import logo from 'img/logo512.png';
+import logo from 'img/logo_clean.png';
 
 function AccountForm() {
     const initialInputs = {

@@ -8,7 +8,7 @@ import 'scss/auth.scss';
 const Auth = () => {
     const [newAccount, setNewaccount] = useState(false);
     const toggleAccount = () => setNewaccount(prev => !prev);
-    const onSocialClick = async(e) => {
+    const onSocialClick = async e => {
         const {name} = e.target;
         let provider;
         if(name === 'googgle'){

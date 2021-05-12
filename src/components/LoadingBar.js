@@ -12,7 +12,7 @@ function LoadingBar({loadingOn}) {
 
     return (
         <>
-            {loading&&<div className="loading">
+            {(loading || loadingOn==="keep")&&<div className="loading">
                 <svg>
                     <defs>
                         <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">

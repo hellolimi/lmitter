@@ -1,8 +1,9 @@
 import { useUserContext, useRefreshUser, useUserData } from 'Context';
 import { dbService, storageService } from 'myBase';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import LoadingBar from 'components/LoadingBar';
+import photoIcon from 'img/photo_icon.png';
 
 function MyInfo() {
     const user = useUserContext();
@@ -11,21 +12,24 @@ function MyInfo() {
     const refreshUser = useRefreshUser();
     const [update, setUpdate]  = useState(false);
     const [myData, setMydata] = useState({
+        myPhoto: '',
         myIntro : '',
         docId : ''
     });
-    const {myIntro, docId} = myData;
+    const {myPhoto, myIntro, docId} = myData;
     const [inputs, setInputs] = useState({
         newName : user.displayName,
         newPhoto : '',
         newIntro : '',
     });
     const {newName, newPhoto, newIntro} = inputs;
+    const photoInput = useRef();
+    const top = useRef();
 
     const getMyData = useCallback(async() => {
         const myData = await userFile(user.uid);
         const {data, id} = myData;
-        setMydata(prev => ({...prev, myIntro:data.userIntro, docId:id}));
+        setMydata({myPhoto:data.photoURL, myIntro:data.userIntro, docId:id});
         setInputs(prev => ({...prev, newIntro: data.userIntro}));
     }, [user.uid, userFile]);
     useEffect(() => {
@@ -55,10 +59,12 @@ function MyInfo() {
         }
     }
     const onClearPhoto = () => {
-        setInputs({...inputs, newPhoto: ''});
+        setInputs(prev => ({...prev, newPhoto: ''}));
+        photoInput.current.value = '';
     }
     const onSubmit = async (e) => {
         e.preventDefault();
+        top.current.scrollIntoView();
         if(displayName !== newName && newName !== ''){
             await user.updateProfile({
                 displayName : newName
@@ -72,10 +78,10 @@ function MyInfo() {
                 userIntro: newIntro
             });
         }
-        if(newPhoto.length > 0){
+        if(newPhoto){
+            setMydata(({...myData, myPhoto: null}));
             const allPhotos = await storageService.ref(`profile/${user.uid}`).listAll();
             allPhotos.items.map(item => item.delete());
-           
             const fileReference = storageService.ref().child(`profile/${user.uid}/${uuidv4()}`);
             const response = await fileReference.putString(newPhoto, 'data_url');
             const fileUrl = await response.ref.getDownloadURL();
@@ -86,25 +92,42 @@ function MyInfo() {
                 photoURL: fileUrl
             });
         }
+        setUpdate(false); 
+        setInputs(prev => ({...prev, newPhoto: ''}));
         refreshUser();
-        setUpdate(false);
     }
+
+    const loadingOn = [myPhoto, user, myIntro];
     return (
         <>
-            <div className="myProfile">
-                <img src={photoURL} alt="" width="100" />
+            <div className="userInfo" ref={top}>
+                {myPhoto?<img src={photoURL} alt="" width="100" />:<LoadingBar loadingOn="keep" />}
                 <h3>{displayName}</h3>
                 <p>{myIntro}</p>
-                <LoadingBar loadingOn={user}/> 
+                <LoadingBar loadingOn={loadingOn}/> 
             </div>
             <button type="button" onClick={onToggle}>Update</button>
             {update&&
-            <form onSubmit={onSubmit}>
-                <input type="file" accept="image/*" onChange={onFileChange} />
-                {newPhoto.length>0&&<img src={newPhoto} alt="" width="100" />}
-                <button type="button" onClick={onClearPhoto}>Clear Photo</button>
-                <input type="text" name="newName" placeholder="Enter your nickname" value={newName} onChange={onChangeInput} maxLength="10" />
-                <input type="text" name="newIntro" placeholder="Enter your introduction" value={newIntro} onChange={onChangeInput} maxLength="100" />
+            <form onSubmit={onSubmit} className="updateForm">
+                <fieldset className="updatePhoto">
+                    <input id="photo" type="file" accept="image/*" onChange={onFileChange} ref={photoInput} />
+                    {newPhoto?
+                        <div>
+                            <img src={newPhoto} alt="upload file" />
+                            <button onClick={onClearPhoto}>Clear Image</button>
+                        </div>:
+                        <label htmlFor="photo">
+                            <img src={photoIcon} alt="icon" />
+                            <span>Change my photo...</span>
+                        </label>
+                    }
+                </fieldset>
+                <fieldset className="updateMyInfo">
+                    <label htmlFor="name">Name</label>
+                    <input id="name" type="text" name="newName" placeholder="Enter your nickname" value={newName} onChange={onChangeInput} maxLength="10" />
+                    <label htmlFor="intro">Intro</label>
+                    <input id="intro" type="text" name="newIntro" placeholder="Enter your introduction" value={newIntro} onChange={onChangeInput} maxLength="100" />
+                </fieldset>
                 <button type="submit">Update Profile</button>
             </form>
             }

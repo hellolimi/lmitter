@@ -100,16 +100,18 @@ const Lmitte = ({lmitteObj}) => {
         </div>
         {edit?<>
                 {isCreator&&<>
-                    <form onSubmit={onSubmit}>
+                    <form onSubmit={onSubmit} className="editForm">
                         <input type="text" placeholder="Edit your lmitte!" value ={newLmitte} required onChange={onChange} />
-                        <button type="submit">Update Lmitte</button>
+                        <div>
+                            <button type="submit">Update Lmitte</button>
+                            <button type="button" onClick={onEditCancel}>Cancel</button>
+                        </div>
                     </form>
-                    <button type="button" onClick={onEditCancel}>Cancel</button>
                 </>}
             </>:
             <>
-                <h4>{lmitteObj.text}</h4>
-                {lmitteObj.fileUrl && <img src={lmitteObj.fileUrl} width="100px" alt="" />}
+                {lmitteObj.text&&<p className="lmitteText">{lmitteObj.text}</p>}
+                {lmitteObj.fileUrl && <img src={lmitteObj.fileUrl} alt="" />}
                 <SocialBlock lmitteObj={lmitteObj} />
         </>}
     </>);

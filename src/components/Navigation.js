@@ -18,7 +18,7 @@ function Navigation() {
 
     return (<header>
         <div className="wrap">
-            <h1><Link to="/"><img src={logo} alt="logo"/>lmitter</Link></h1>
+            <h1><Link to="/"><img src={logo} alt="logo"/><span>lmitter</span></Link></h1>
             <nav>
                 <ul>
                     <li><Link to="/profile">{user.displayName}'s Profile</Link></li>
