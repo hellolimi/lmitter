@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/lmitter/static/css/main.4f7b09b5.chunk.css",
-    "main.js": "/lmitter/static/js/main.42214f6f.chunk.js",
-    "main.js.map": "/lmitter/static/js/main.42214f6f.chunk.js.map",
+    "main.js": "/lmitter/static/js/main.e823d580.chunk.js",
+    "main.js.map": "/lmitter/static/js/main.e823d580.chunk.js.map",
     "runtime-main.js": "/lmitter/static/js/runtime-main.3d695f6c.js",
     "runtime-main.js.map": "/lmitter/static/js/runtime-main.3d695f6c.js.map",
     "static/js/2.7db95abd.chunk.js": "/lmitter/static/js/2.7db95abd.chunk.js",
@@ -16,6 +16,6 @@
     "static/js/runtime-main.3d695f6c.js",
     "static/js/2.7db95abd.chunk.js",
     "static/css/main.4f7b09b5.chunk.css",
-    "static/js/main.42214f6f.chunk.js"
+    "static/js/main.e823d580.chunk.js"
   ]
 }
