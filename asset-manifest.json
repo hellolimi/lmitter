@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/lmitter/static/css/main.1296a8bc.chunk.css",
-    "main.js": "/lmitter/static/js/main.e823d580.chunk.js",
-    "main.js.map": "/lmitter/static/js/main.e823d580.chunk.js.map",
+    "main.css": "/lmitter/static/css/main.6b53c620.chunk.css",
+    "main.js": "/lmitter/static/js/main.908d427c.chunk.js",
+    "main.js.map": "/lmitter/static/js/main.908d427c.chunk.js.map",
     "runtime-main.js": "/lmitter/static/js/runtime-main.3d695f6c.js",
     "runtime-main.js.map": "/lmitter/static/js/runtime-main.3d695f6c.js.map",
     "static/js/2.7db95abd.chunk.js": "/lmitter/static/js/2.7db95abd.chunk.js",
     "static/js/2.7db95abd.chunk.js.map": "/lmitter/static/js/2.7db95abd.chunk.js.map",
     "index.html": "/lmitter/index.html",
-    "static/css/main.1296a8bc.chunk.css.map": "/lmitter/static/css/main.1296a8bc.chunk.css.map",
+    "static/css/main.6b53c620.chunk.css.map": "/lmitter/static/css/main.6b53c620.chunk.css.map",
     "static/js/2.7db95abd.chunk.js.LICENSE.txt": "/lmitter/static/js/2.7db95abd.chunk.js.LICENSE.txt",
     "static/media/logo_clean.dd6c899f.png": "/lmitter/static/media/logo_clean.dd6c899f.png"
   },
   "entrypoints": [
     "static/js/runtime-main.3d695f6c.js",
     "static/js/2.7db95abd.chunk.js",
-    "static/css/main.1296a8bc.chunk.css",
-    "static/js/main.e823d580.chunk.js"
+    "static/css/main.6b53c620.chunk.css",
+    "static/js/main.908d427c.chunk.js"
   ]
 }
