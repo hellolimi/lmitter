@@ -7,14 +7,10 @@
 .home{
     display: flex; flex-direction:column; align-items:center;
     /* userForm */
-    .userForm{ 
-        display:flex; align-items:flex-start; width: 100%;padding:40px; background-color:#333; border-bottom:1px solid #666;
-        .myInfo{ 
-            flex: 1; display:flex; flex-direction: column; justify-content:center; align-items:center; margin-right:20px;
-            figure{@include proPic(64px, 16px);}
+    .userForm{ width:100%; padding:40px 16px; background-color:#333;
+        .myInfo{
             p{ font-weight:400; padding-top:8px; }
         }
-        form{ flex: 10; }
     }
     .editForm{ display:flex; flex-direction:column; width:80%;
         input{ padding:10px; margin-bottom:16px; background-color:#333; border:1px solid #FF7BAC; border-radius:4px;  }
@@ -23,44 +19,106 @@
 }
 
  /* profile */
-.userInfo{ display:flex; flex-direction:column; align-items:center; padding-bottom:40px; border-bottom:1px solid #333;
-    img{ width:200px; height:200px; object-fit:cover; padding:10px; border-radius:50%; border:4px solid #333; }
+.userInfo{ 
+    img{ object-fit:cover; padding:10px; border-radius:50%; border:4px solid #333; }
     h3{ padding:10px; font-size:1.78rem; font-weight:700; }
-    p{ font-size:1.125rem; }
+    p{ font-size:1.125rem; } 
 }
 .myProfile{
     display:flex; flex-direction:column; align-items:center; padding-top:40px;
     > button{ width:30%; margin-bottom:40px; @include buttons(#FF7BAC) }
-    .updateForm{ display:flex; width:100%; justify-content:space-between; margin-bottom:40px; padding:16px; border-top:1px solid #333; border-bottom:1px solid #333;
-        .updatePhoto{ flex:1; margin-right:20px; 
+    .updateForm{ padding:16px; border-top:1px solid #333; border-bottom:1px solid #333;
+        .updatePhoto{ 
             #photo{ position:absolute; left:-999em; }
             label{ height:100% !important; padding:10px; border:1px solid #5CC1FF; border-radius:4px; @include photoInput; }
             & > div{
                 img{ width:200px; height:200px; object-fit:cover; padding:10px; border-radius:50%; border:4px solid #333; margin-bottom:16px;}
-                display:flex; flex-direction:column; justify-content:center; align-items:center;
-                >button{ @include buttons(#5CC1FF) }
+                > button{ @include buttons(#5CC1FF) }
             }
         }
-        .updateMyInfo{ flex:2; display:flex; flex-direction:column; margin-right:20px; 
+        .updateMyInfo{
             input{ padding:10px; background-color:#333; border:1px solid #5CC1FF; border-radius:4px; 
             }
             #name{ margin-bottom:0.875rem; }
             label{ color:#ccc; font-size:16px; margin-bottom:5px; }
         }
-        >button{ align-self:flex-end; flex:1; height:fit-content; @include buttons(#5CC1FF) }
+        > button{ @include buttons(#5CC1FF) }
     }
     .lmitteForm{ width:100%; padding:40px; background-color:#333; border-top:1px solid #666; border-bottom:1px solid #666; }
-    
 }
 .yourProfile{ display:flex; flex-direction:column; align-items:center; padding-top:40px; }
+
+@media screen and (min-width:1025px){
+    .userForm{ 
+        display:flex; align-items:flex-start; width:100%; padding:40px; background-color:#333; border-bottom:1px solid #666;
+        .myInfo{ 
+            flex: 1; display:flex; flex-direction: column; justify-content:center; align-items:center; margin-right:20px;
+            figure{ @include proPic(64px, 16px); }
+        }
+        form{ flex: 10; }
+    }
+    .userInfo{ display:flex; flex-direction:column; align-items:center; padding-bottom:40px; border-bottom:1px solid #333;
+        img{ width:200px; height:200px; }
+    }
+    .myProfile{
+        .updateForm{ display:flex; justify-content:space-between; width:100%; margin-bottom:40px;
+            .updatePhoto{ margin-right:20px;
+                #photo{ position:absolute; left:-999em; }
+                & > div{
+                    img{ width:200px; height:200px; object-fit:cover; padding:10px; border-radius:50%; border:4px solid #333; margin-bottom:16px;}
+                    display:flex; flex-direction:column; justify-content:center; align-items:center;
+                    
+                }
+            }
+            .updateMyInfo{ flex:2; display:flex; flex-direction:column; margin-right:20px; 
+                #name{ margin-bottom:0.875rem; }
+                label{ color:#ccc; font-size:16px; margin-bottom:5px; }
+            }
+            > button{ align-self:flex-end; flex:1; height:fit-content; }
+        }
+    }
+}
+
+@media screen and (max-width:1024px){
+    .userForm{ 
+        .myInfo{ float:left; width:10%;text-align:center;
+            margin-right:16px;
+            figure{ margin:0 auto; @include proPic(48px !important, 10px !important);}
+        }
+    }
+    .userInfo{ text-align:center;
+        img{ width:180px; height:180px; }
+    }
+    .myProfile{ 
+        padding-top:20px !important;
+        > button{ display:block; width:40% !important; margin:20px 0 !important; }
+        .updateForm{ width:100%; margin-bottom:1rem;
+            label{ display:block; margin-bottom:1rem; }
+            .updatePhoto{ 
+                & > div{
+                    img{ display:block; margin: 0 auto;}
+                    button{ display:block; margin:1rem auto; }
+                }
+            }
+            .updateMyInfo{  
+                input{ width:100% !important; padding:1rem 10px; }
+                #name{ margin-bottom:0.875rem; }
+                label{ color:#ccc; font-size:16px; margin-bottom:5px; }
+            }
+            > button{ display:block; width:40% !important; margin:1.25rem auto 0.25rem; }
+        }
+        
+        .lmitteForm{ padding:1rem; }
+    }
+}
 
 @media screen and (max-width:767px) {
     .userForm{ 
         padding:16px !important; 
         .myInfo{ 
-            margin-right:16px !important;
-            figure{@include proPic(48px !important, 10px !important);}
-            p{ font-weight:400; padding-top:8px; font-size:0.875rem; white-space: nowrap; }
+            width:15%;
+            figure{ @include proPic(40px !important, 10px !important);}
+            p{ font-size:0.875rem; white-space:nowrap; }
         }
     }
     .editForm{ 
@@ -68,21 +126,10 @@
         > div { display:flex; justify-content:flex-end; button{ @include buttons(#FF7BAC); &[type=button]{ background-color:#5CC1FF; margin-left:16px; } } }
     }
 
-    .userInfo{ padding-bottom:20px !important;
+    .userInfo{ padding-bottom:20px !important; 
         img{ width:180px !important; height:180px !important; }
     }
-    .myProfile{ padding-top:20px !important;
-        > button{ width:40% !important; margin-bottom:20px !important; }
-        .updateForm{ flex-direction: column; margin-bottom:20px !important; 
-            .updatePhoto{ width:100%; margin-right:16px !important; 
-                label{ margin-bottom:0.875rem; padding:10px;  }
-            }
-            .updateMyInfo{ width:100%; display:flex; flex-direction:column; margin-right:16px !important; 
-                input{ width:100%; margin-bottom:0.875rem; } #intro{ margin-bottom:20px !important; }
-            }
-            >button{ width:100%; align-self:center; }
-        }
-        .lmitteForm{ width:100%; padding:16px 20px !important; }
-        
+    .myProfile{
+        > button{margin:0 0 20px !important; }
     }
 }

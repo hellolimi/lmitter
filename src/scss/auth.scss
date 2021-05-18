@@ -12,13 +12,13 @@
     }
     .authBox{ display:flex; width:100%;
         .leftBox{ 
-            display:flex; flex-direction:column;
             width:50%; padding:60px 40px; box-sizing: border-box; border-right:2px solid #333;
-            .loginForm, .joinForm{ display:flex; flex-direction:column; margin-bottom:30px;
-                input{ padding:10px; margin-bottom:30px; background-color:#666; &::placeholder{color:#ededed;} }
+            .loginForm, .joinForm{ margin-bottom:30px;
+                input{ padding:10px; margin-bottom:1rem; background-color:#666; &::placeholder{color:#ededed;} }
                 button{@include buttons(#FF7BAC)}
+                span{ padding-bottom:1rem; font-size:0.875rem; color:rgb(250, 124, 124); }
             }
-            > button{@include buttons(#5CC1FF)}
+            > button{width:100%; @include buttons(#5CC1FF)}
         }
         .rightBox{
             display:flex; flex-direction:column; align-items:center; justify-content: center;
@@ -27,6 +27,21 @@
 
         }
     }
+}
+@media screen and (min-width:1025px) {
+    .leftBox{ 
+        display:flex; flex-direction:column;
+        .loginForm, .joinForm{ display:flex; flex-direction:column; margin-bottom:30px; }
+    }
+    
+}
+@media screen and (max-width:1024px) {
+    .leftBox{ 
+        .loginForm, .joinForm{ display:flex; flex-direction:column; margin-bottom:30px;
+            input{ width:100%; }
+        }
+    }
+    
 }
 
 @media screen and (max-width:767px) {

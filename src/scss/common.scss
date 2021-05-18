@@ -3,12 +3,12 @@
 
 body, html{ background-color:#1E1E1E; overflow-x:hidden; }
 *{ margin:0; padding:0; box-sizing:border-box; color:#fff; font-family: 'Noto Sans KR', sans-serif; font-size:18px; font-weight:300; }
-button{ cursor:pointer; padding:10px; border:none; border-radius:4px; }
+button{ cursor:pointer; padding:10px !important; border:none; border-radius:4px; }
 li{ list-style:none; }
 fieldset{ border:none; }
 a{ text-decoration:none; }
 .wrap{ width:1080px; max-width:100%; margin:0 auto; }
-.bodyWrap{ width:100%; height:100vh; padding:$headerHeight 0 $footerHeight;  }
+.bodyWrap{ width:100%; height:100%; padding:$headerHeight 0 $footerHeight;  }
 
 /* header */
 header{ position:fixed; left:0; top:0; width:100%; height:$headerHeight; border-bottom:1px solid #333; background-color:#1e1e1ee0;
@@ -35,7 +35,7 @@ header{ position:fixed; left:0; top:0; width:100%; height:$headerHeight; border-
 }
 
 /* loading */
-.loading{ width:100px; height:100px;  animation: loading 1s infinite; }
+.loading{ width:100px; height:100px; margin:0 auto; animation: loading 1s infinite; }
 .loading circle{
     fill: transparent; stroke-width: 3px;
     transform-origin: center;
@@ -51,6 +51,13 @@ header{ position:fixed; left:0; top:0; width:100%; height:$headerHeight; border-
 }
 
 /* lmittes */
+.lmitteForm{ width:100%;
+    fieldset{
+        input{ width:100%; margin-bottom:20px; padding:10px; border-radius:4px; background-color:transparent; border:1px solid #FF7BAC; &::placeholder{color:#ededed;}}
+        label{ @include photoInput }
+    }
+    button{ height:fit-content; @include buttons(#5CC1FF); } 
+}
 .lmittes{ width: 100%; padding-bottom: $footerHeight;
     > li{ 
         padding:40px; border-bottom:1px solid #666;
@@ -89,24 +96,23 @@ header{ position:fixed; left:0; top:0; width:100%; height:$headerHeight; border-
             }
         }
     } }
-.lmitteForm{ display:flex; 
-    fieldset{ flex:7; border:none; margin-right:20px;
-            input{ width:100%; margin-bottom:20px; padding:10px; border-radius:4px; background-color:transparent; border:1px solid #FF7BAC; &::placeholder{color:#ededed;}}
-            & > div{
-                figure{ display:flex; justify-content:center; align-items:flex-start; width:220px; height:220px; margin-bottom:20px; border-radius:4px; overflow:hidden; 
-                    img{ width:100%; height:100%; object-fit:cover; }
-                }
-                display:flex; flex-direction:column; justify-content:center; align-items:center;
-            }
-        }
-    label{ @include photoInput }
-    button{ flex:1; height:fit-content; @include buttons(#5CC1FF); } 
-}
 
-
-footer{ position:fixed; left:0; bottom:0; z-index:100; display:flex; justify-content:center; align-items:center; width:100%; height:$footerHeight; border-top: 1px solid #333; background-color:#1E1E1E; color:#999;  }
+footer{ display:flex; justify-content:center; align-items:center; width:100%; height:$footerHeight; border-top: 1px solid #333; background-color:#1E1E1E; color:#999;  }
 
 /* -------------responsive-------------- */
+@media screen and (min-width:1025px){
+    .lmitteForm{ display:flex; 
+        fieldset{ flex:7; border:none; margin-right:20px;
+                & > div{
+                    figure{ display:flex; justify-content:center; align-items:flex-start; width:220px; height:220px; margin-bottom:20px; border-radius:4px; overflow:hidden; 
+                        img{ width:100%; height:100%; object-fit:cover; }
+                    }
+                    display:flex; flex-direction:column; justify-content:center; align-items:center;
+                }
+            }
+        > button{ flex:1; } 
+    }
+}
 @media screen and (max-width:1024px) {
     header{ padding:0 16px;
         h1{ 
@@ -114,9 +120,30 @@ footer{ position:fixed; left:0; bottom:0; z-index:100; display:flex; justify-con
             a{ span{display:none;} }
         }
     }
+    .lmitteForm{
+        float:left;
+        width:85%;
+        fieldset{ width:83%; float:left; 
+            & > div{ text-align:center;
+                figure{display:inline-block; width:200px; height:200px; margin-bottom:20px; border-radius:4px; overflow:hidden; 
+                    img{ width:100%; height:100%; object-fit:cover; }
+                }
+                button{ display:block; margin:0 auto; width:60%; font-size:0.875rem;}
+            }
+        } 
+        > button{ width:15%; float:right;}
+    }
 }
 @media screen and (max-width:767px) {
     *{ font-size:16px; }
+    .lmitteForm{
+        float:left;
+        width:80%;
+        fieldset{ width:72%; float:left; 
+            figure{display:inline-block; width:190px; height:190px;}
+        } 
+        > button{ width:25%; font-size:0.875rem;}
+    } 
     .lmittes{
         >li{ padding:30px 16px !important;
             .creatorInfo{ margin-bottom:8px !important; }
@@ -125,11 +152,6 @@ footer{ position:fixed; left:0; bottom:0; z-index:100; display:flex; justify-con
             .right{  
                 ul{ top:32px !important; right:0 !important; padding:0 !important; }
             }
-        }
-    }
-    .lmitteForm{ display:flex; 
-        fieldset{ margin-right:16px !important;
-                input{ width:100%; margin-right:16px !important; } 
         }
     }
 }
