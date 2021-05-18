@@ -97,14 +97,13 @@ function MyInfo() {
         refreshUser();
     }
 
-    const loadingOn = [myPhoto, user, myIntro];
     return (
         <>
             <div className="userInfo" ref={top}>
                 {myPhoto?<img src={photoURL} alt="" width="100" />:<LoadingBar loadingOn="keep" />}
                 <h3>{displayName}</h3>
                 <p>{myIntro}</p>
-                <LoadingBar loadingOn={loadingOn}/> 
+                <LoadingBar loadingOn={user}/>
             </div>
             <button type="button" onClick={onToggle}>Update</button>
             {update&&

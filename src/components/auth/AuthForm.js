@@ -28,8 +28,8 @@ function AuthForm() {
         <form onSubmit={onSubmit} className="loginForm">
             <input name="email" type="text" placeholder="Email" value={email} required onChange={onChange} />
             <input name="password" type="password" placeholder="Password" value={password} required onChange={onChange} />
+            {error&&<span>{error}</span>}
             <button type="submit">Log In</button>
-            {error}
         </form>
     );
 }

@@ -23,11 +23,14 @@ function AccountForm() {
         try{
             await authService.createUserWithEmailAndPassword( email,  password );
             authService.onAuthStateChanged((user) => {
+                const userNow = authService.currentUser;
                 if (user) {
-                    user.updateProfile({ 
-                        displayName: username,
-                        photoURL: logo
-                    });
+                    if(user.uid === userNow.uid){
+                        user.updateProfile({ 
+                            displayName: username,
+                            photoURL: logo
+                        });
+                    }
                     const newUser = {
                         date : user.metadata.creationTime,
                         email : user.email,
@@ -49,8 +52,8 @@ function AccountForm() {
             <input name="username" type="text" placeholder="Your Name" value={username} required onChange={onChange} />
             <input name="email" type="text" placeholder="Email" value={email} required onChange={onChange} />
             <input name="password" type="password" placeholder="Password" value={password} required onChange={onChange} />
+            {error&&<span>{error}</span>}
             <button type="submit">Create Account</button>
-            <span>{error}</span>
         </form>
     );
 }
