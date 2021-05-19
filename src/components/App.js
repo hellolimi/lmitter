@@ -18,7 +18,11 @@ function App() {
         {init?<AppRouter />:<div className="initFalse">
             <LoadingBar loadingOn="keep"/>
             </div>}
-        <footer>&copy; 2021 Lmitter</footer>
+        <footer>
+          <p>
+            &copy; 2021 Lmitter<br />
+          </p>
+        </footer>
       </UserProvider>
     </div>
   );
